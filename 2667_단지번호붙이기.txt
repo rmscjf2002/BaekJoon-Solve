@@ -1,0 +1,111 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <list>
+#include <map>
+#include <tuple>
+using namespace std;
+
+/*
+	입력방식 string으로 받아야 0111000 처럼 붙은숫자 입력받을 때 cin 원활하게 가능
+	예외처리 방문안한 곳, Map이 1인 곳 잘 체크 
+*/
+
+int type[4][2] =
+{
+	{-1,0},
+	{1,0},
+	{0,-1},
+	{0,1}
+};
+int Map[26][26];
+int visit[26][26] = { 0 };
+int num;
+int cnt;
+int BFS(int x, int y)
+{
+	cnt = 1;
+	queue<pair<int, int>> q;
+	q.push({ x,y });
+	visit[x][y] = 1;
+
+	while (!q.empty())
+	{
+		x = q.front().first;
+		y = q.front().second;
+		q.pop();
+
+		for (int i = 0; i < 4; i++)
+		{
+			int nx = x + type[i][0];
+			int ny = y + type[i][1];
+
+			if (nx < num && ny < num && nx >= 0 && ny >= 0 && !visit[nx][ny] && Map[nx][ny] == 1)
+			{
+				visit[nx][ny] = visit[x][y] + 1;
+				cnt++;
+				q.push({ nx,ny });
+			}
+	
+		}
+		
+	}
+	return cnt;
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	vector<int> ans;
+	
+	cin >> num;
+
+	for (int i = 0; i < num; i++)
+	{
+		string a;
+		cin >> a;
+		for (int j = 0; j < num; j++)
+		{
+			Map[i][j] = a[j] - '0';
+		}
+	} 
+
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = 0; j < num; j++)
+		{
+			if (Map[i][j] == 1 && !visit[i][j])
+			{
+				ans.push_back(BFS(i, j));
+			}
+		}
+	}
+	
+	sort(ans.begin(), ans.end());
+
+	cout << ans.size() << '\n';
+	for (unsigned int i = 0; i < ans.size(); i++)
+	{
+		cout << ans[i] << '\n';
+	}
+
+
+	return 0;
+}
+		
