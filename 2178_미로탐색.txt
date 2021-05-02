@@ -1,0 +1,115 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <list>
+#include <map>
+#include <tuple>
+
+using namespace std;
+
+int type[4][2] = 
+{
+	{-1,0},
+	{1,0},
+	{0,-1},
+	{0,1}
+};
+
+int ans;
+int miro[101][101];
+int visit[101][101];
+int _x, _y;
+
+int BFS(int x, int y)
+{
+	visit[x][y] = 1;
+	queue<pair<int, int>>q;
+	q.push({ x,y });
+
+	while (!q.empty())
+	{
+		x = q.front().first;
+		y = q.front().second;
+		
+	
+		q.pop();
+
+		if (x == _x - 1 && y == _y - 1)
+		{
+			return visit[x][y];
+		}
+		for (int i = 0; i < 4; i++)
+		{
+			int nx = x + type[i][0];
+			int ny = y + type[i][1];
+
+			if (nx >= 0 && nx < _x && ny >= 0 && ny < _y && !visit[nx][ny] && miro[nx][ny] == 1)
+			{
+				visit[nx][ny] = visit[x][y] + 1;
+				q.push({ nx,ny });
+			}
+		}
+	}
+	
+	return 0;
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	cin >> _x >> _y;
+	
+	for (int i = 0; i < _x; i++)
+	{
+		string s;
+		cin >> s;
+		for (int j = 0; j < _y; j++)
+		{
+			miro[i][j] = s[j] - '0';
+		}
+	}
+	
+	for (int i = 0; i < _x; i++)
+	{
+		for (int j = 0; j < _y; j++)
+		{
+			if (!visit[i][j] && miro[i][j] == 1)
+			{
+				ans += BFS(i, j);
+
+			}
+		}
+	}
+	cout << ans<< '\n';
+	/*
+		ans에 +로 BFS의 결과값을 가져오는 이유는 
+		_x , _y 를 7 7 로 입력받고
+		1011111
+		1110001
+		1000001
+		1000001
+		1000001
+		1000001
+		1111111 의 미로를 탐색할 때  6행6열에 도착했을 때 13을 반환하지만,
+		5행6열이 아직 큐에 남아있어 return visit를 반환하고 , return 0을 반환해서
+		ans = BFS(i,j)로 하면 ans가 0이되버린다.
+	*/
+	return 0;
+}
