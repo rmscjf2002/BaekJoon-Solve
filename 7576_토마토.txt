@@ -1,0 +1,137 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <list>
+#include <map>
+#include <tuple>
+
+using namespace std;
+
+int type[4][2] = 
+{
+	{-1,0},
+	{1,0},
+	{0,-1},
+	{0,1}
+};
+
+int Map[1001][1001];
+int visit[1001][1001];
+int _x, _y;
+queue<pair<int, int>> q;
+
+int BFS(int x, int y)
+{
+	int _max = 0;
+	
+	
+	while (!q.empty())
+	{
+		x = q.front().first;
+		y = q.front().second;
+		q.pop();
+
+		for (int i = 0; i < 4; i++)
+		{
+			int nx = x + type[i][0];
+			int ny = y + type[i][1];
+
+			if (nx >= 0 && nx < _x && ny >= 0 && ny < _y && visit[nx][ny] == 0 && Map[nx][ny] == 0)
+			{
+				visit[nx][ny] = visit[x][y] + 1;
+				_max = max(_max, visit[nx][ny]);
+				q.push({ nx,ny });
+			}
+		}
+	}
+	return _max;
+}
+
+/*
+	BFS를 여러군데서 시작하려면 탐색하고, 1인부분을 큐에 넣고시작하면 됨
+*/
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	int ans=0;
+	cin >> _y >> _x;
+	for (int i = 0; i < _x; i++)
+	{
+		for (int j = 0; j < _y; j++)
+		{
+			cin >> Map[i][j];
+			if (Map[i][j] == -1)
+				visit[i][j] = -1;
+			if (Map[i][j] == 1)
+				visit[i][j] = 1;
+		}
+	}
+
+	for (int i = 0; i < _x; i++)
+	{
+		for (int j = 0; j < _y; j++)
+		{
+			if (Map[i][j] == 1)
+			{
+				q.push({ i,j });
+			}
+		}
+	}
+
+	for (int i = 0; i < _x; i++)
+	{
+		for (int j = 0; j < _y; j++)
+		{
+			if (Map[i][j] == 1)
+				ans += BFS(i, j);
+		}
+	}
+
+	
+
+	bool check = false;
+
+	for (int i = 0; i < _x; i++)
+	{
+		for (int j = 0; j < _y; j++)
+		{
+			if (visit[i][j] == 0)
+			{
+				check = true;
+				break;
+			}
+		}
+		
+	}
+	
+	if (check == true)
+		cout << -1 << '\n';
+	else
+	{
+		if (ans == 0)
+			cout << ans << '\n';
+		else
+			cout << ans - 1 << '\n';
+	}
+	
+	
+	return 0;
+}
