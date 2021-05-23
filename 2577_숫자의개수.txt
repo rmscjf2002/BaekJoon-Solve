@@ -1,0 +1,52 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <list>
+#include <map>
+#include <tuple>
+
+using namespace std;
+
+
+
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int a, b, c;
+	cin >> a >> b >> c;
+	string s = to_string(a*b*c);
+
+	int arr[10] = { 0 };
+
+	for (unsigned int i = 0; i < s.length(); i++)
+	{
+		arr[s[i] - '0']++;
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		cout << arr[i] << '\n';
+	}
+
+	return 0;
+}
