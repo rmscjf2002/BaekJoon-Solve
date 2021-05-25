@@ -49,6 +49,7 @@ int hansu(int n)
 	}
 	return cnt;
 }
+// 어차피 1000까지라서 for문 쓰지않고 그냥 tmp[0]-tmp[1] == tmp[1]-tmp[2] 비교로 써도 됨
 
 
 int main()
