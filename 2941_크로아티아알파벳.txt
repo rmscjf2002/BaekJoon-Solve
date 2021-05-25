@@ -1,0 +1,53 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <list>
+#include <map>
+#include <tuple>
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	vector<string> v = { "c=","c-","dz=","d-","lj","nj","s=","z=" };
+
+	string s;
+	cin >> s;
+	int idx;
+	for (unsigned int i = 0; i < v.size(); i++)
+	{
+		while (1)
+		{
+			idx = s.find(v[i]);
+			if (idx == string::npos)
+				break;
+			s.replace(idx, v[i].length(), "?");
+		}
+	}
+
+	cout << s.length() << '\n';
+	
+	return 0;
+}
+/* if문으로 풀 수도 있겠지만 vector,replace,find를 사용하는게 더 코드가 보기좋음 */
