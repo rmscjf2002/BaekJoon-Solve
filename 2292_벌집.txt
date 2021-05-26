@@ -1,0 +1,70 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <list>
+#include <map>
+#include <tuple>
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+	if (n == 1)
+		cout << 1 << '\n';
+	else
+	{
+		int cnt = 0;
+		int i = 2;
+		int idx = 1;
+		while (1)
+		{
+			cnt++;
+			if (6 * idx < cnt)
+			{
+				cnt = 1;
+				idx++;
+			}
+			if (i == n)
+				break;
+
+			i++;
+		}
+		cout << idx+1 << '\n';
+	}
+	
+	
+	return 0;
+}
+
+/*
+  else문 아래와 같이 하면 시간효율성이 더 좋게 나옴. 
+   int i;
+   for(i=1; tmp < n-1; i++)
+    {
+		tmp += 6 * i;
+	}
+	cout << i << '\n'
+*/
+	
