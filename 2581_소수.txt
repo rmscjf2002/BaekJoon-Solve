@@ -1,0 +1,70 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+
+	int not_prime[10001] = { 0,1 };
+
+
+
+	/* 소수 아닌 수는 1을 대입해줌 
+	   에라토스테네의 체 */
+	for (int i = 2; i < 10001; i++)
+	{
+		for (int j = i * 2; j < 10001; j += i)
+		{
+			if (not_prime[j] == 0)
+				not_prime[j] = 1;
+		}
+	}
+
+	int m, n;
+	cin >> m >> n;
+
+	int sum = 0;
+	int Min = 10001;
+	for (int i = m; i <= n; i++)
+	{
+		if (not_prime[i] == 0)
+		{
+			sum += i;
+			Min = min(i, Min);
+		}
+	}
+	if (sum == 0)
+		cout << -1 << '\n';
+	else
+	{
+		cout << sum << '\n';
+		cout << Min << '\n';
+	}
+	return 0;
+}
