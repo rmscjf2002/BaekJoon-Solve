@@ -1,0 +1,124 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int cnt[8001] = { 0 };
+
+	vector<int> v;
+	
+	int sum = 0; 
+
+	int n;
+	cin >> n;
+	for(int i=0; i<n; i++)
+	{
+		int a;
+		cin >> a;
+		if (a <= 0)
+			cnt[abs(a)]++;
+
+		else
+			cnt[a + 4000]++;
+		
+		sum += a;
+		v.push_back(a);
+	}
+	sort(v.begin(), v.end());
+
+	double ansavg = round((double)sum / n); // 산술평균
+
+	int mode = 0; // 최빈 값
+	int cntmode = 0; 
+	int modecnt = 1; // 2번째값 판별 cnt
+	bool check = false; // 중복확인
+
+	// 마이너스 
+	for (int i = 4000; i >= 0; i--)
+	{
+		if (cntmode < cnt[i] && cnt[i] != 0)
+		{
+			mode = (i*-1);
+			cntmode = cnt[i];
+            check= false;
+			modecnt = 1;
+		}
+		else if (cntmode == cnt[i] && cnt[i] != 0 && !check)
+		{
+			if (modecnt == 1)
+			{
+				check = true;
+				mode = (i*-1);
+				modecnt++;
+			}
+		}
+	}
+
+	// 플러스
+
+	for (int i = 4001; i < 8001; i++)
+	{
+		if (cntmode < cnt[i])
+		{
+			
+			mode = i - 4000;
+			cntmode = cnt[i];
+            check= false;
+			modecnt = 1;
+		}
+		else if (cntmode == cnt[i] && cnt[i] != 0 && !check)
+		{
+			
+			if (modecnt == 1)
+			{
+				check = true;
+				mode = i - 4000;
+				modecnt++;
+			}
+		}
+	}
+
+	
+	
+	int median = v[n / 2]; // 중앙값
+
+	int range = v[n - 1] - v[0]; // 범위
+
+	
+	cout << (int)ansavg << '\n'; // int로 출력안해서 고생했음.
+	cout << median << '\n';
+	cout << mode << '\n';
+	cout << range << '\n';
+
+	
+	return 0;
+}
