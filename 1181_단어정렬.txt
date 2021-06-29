@@ -1,0 +1,59 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+bool pred(const string &a, const string &b)
+{
+	if (a.length() == b.length())
+		return a < b;
+	else
+		return a.length() < b.length();
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+
+	vector<string> v;
+	for (int i = 0; i < n; i++)
+	{
+		string s;
+		cin >> s;
+		v.push_back(s);
+	}
+
+	sort(v.begin(), v.end(), pred);
+
+	v.erase(unique(v.begin(), v.end()), v.end());
+
+	for (unsigned int i = 0; i < v.size(); i++)
+		cout << v[i] << '\n';
+
+	return 0;
+}
