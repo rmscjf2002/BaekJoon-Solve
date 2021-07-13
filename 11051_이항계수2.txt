@@ -1,0 +1,58 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int dp[1001][1001]={0};
+	int n,k;
+	cin >> n >> k;
+
+
+
+	for (int i = 0; i <= n; i++)
+	{
+		for (int j = 0; j <= min(i, k); j++)
+		{
+			if (j == 0 || i == j)
+				dp[i][j] = 1;
+			else
+			{
+				dp[i][j] = (dp[i - 1][j - 1] + dp[i - 1][j])%10007;
+			}
+		}
+	}
+	cout << dp[n][k]%10007 << '\n';
+	
+	
+	return 0;
+}
