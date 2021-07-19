@@ -1,0 +1,75 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+// 조합 nCm 은 n! / (m!(n-m)!) 이므로
+// n!, m!,  (n-m)!의 2의개수 5의개수를 구해서 
+// 2의개수를모두 뺸 값과 5의개수를 모두 뺀값 중 가장 작은 값을 구함.
+// 팩토리얼과 조합의 관계식을 잘 알아두자.
+
+pair<long long,long long> func(long long a)
+{
+	long long two = 0, five = 0;
+	for (long long i = 2; i <= a; i *= 2)
+		two += a / i;
+	
+
+	for (long long i = 5; i <= a; i *= 5)
+		five += a / i;
+
+	return{ two,five };
+}
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	long long n, k;
+	cin >> n >> k;
+
+	vector <pair<long long, long long>> v(3);
+	
+	// n! 의 개수 
+	v[0] = func(n);
+
+	// k! 의 개수
+
+	v[1] = func(k);
+
+	// (n-k)!의 개수
+
+	v[2] = func(n - k);
+
+	cout << min(v[0].first - v[1].first - v[2].first,v[0].second - v[1].second - v[2].second) << '\n';
+	
+
+
+	return 0;
+}
+	
