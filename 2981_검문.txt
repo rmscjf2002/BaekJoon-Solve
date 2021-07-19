@@ -1,0 +1,92 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+int gcd(int a, int b)
+{
+	if (b == 0)
+		return a;
+	else
+		return gcd(b, a%b);
+}
+
+
+// 수학적 지식이 부족해서 못풀고 구글링 했다.
+// 이런 문제가 나왔을 때 풀 수 있을지 모르겠다.
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	int n;
+	cin >> n;
+
+	vector<int> v;
+	vector<int> ans;
+
+	while (n--)
+	{
+		int a;
+		cin >> a;
+		v.push_back(a);
+	}
+
+	sort(v.begin(), v.end());
+
+	int tmp = v[1] - v[0];
+
+	for (unsigned int i = 2; i < v.size(); i++)
+		tmp = gcd(tmp, v[i] - v[i-1]);
+	
+
+
+
+	// 효율적인 약수 구하는 알고리즘 O(n^0.5)
+
+	for (int i = 2; i*i <= tmp; i++)
+	{
+		if (tmp % i == 0)
+		{
+			ans.push_back(i);
+			ans.push_back(tmp / i);
+		}
+	}
+
+	ans.push_back(tmp);
+	sort(ans.begin(), ans.end());
+
+	ans.erase(unique(ans.begin(), ans.end()), ans.end());
+
+	for (unsigned int i = 0; i < ans.size(); i++)
+		cout << ans[i] << ' ';
+	cout << '\n';
+	
+	
+	
+	return 0;
+}
+	
