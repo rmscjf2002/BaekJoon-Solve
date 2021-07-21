@@ -1,0 +1,93 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	// priority_queue의 기본값은 가장 큰 수를 top으로 둠 .
+	// greater<>로 설정하면 가장 작은 수를 top으로 둠.
+
+	
+
+
+
+	int test;
+	cin >> test;
+
+	// 자꾸 컨테이너를 테스트케이스 밖에 선언해서 다음 케이스로 넘어갈 때 초기화가 안되서 답이 다르게 나오는 상황
+	// 테스트케이스마다 초기화를 하던, 내부에 선언을 하던 습관 들이자.
+	while (test--)
+	{
+		priority_queue<int, vector<int>> pq;
+		queue<pair<int, int>> q;
+		int a, b; // a는 문서의 개수 , b는 몇번째로 인쇄되는지 궁금한 문서의 idx값
+		cin >> a >> b;
+		
+		for (int i = 0; i < a; i++)
+		{
+			int value;
+			cin >> value;
+			pq.push(value);
+			q.push({ i,value }); // 인덱스값과 중요도를 저장
+		}
+
+		int cnt = 1;
+		while (!q.empty())
+		{
+			if (q.front().second == pq.top())
+			{
+				if (b == q.front().first)
+				{
+					cout << cnt << '\n';
+					break;
+				}
+				else
+				{
+					cnt++;
+					pq.pop();
+					q.pop();
+				}
+			}
+
+			else
+			{
+				q.push(q.front());
+				q.pop();
+			}
+		}
+	}
+
+
+	return 0;
+}
+	
