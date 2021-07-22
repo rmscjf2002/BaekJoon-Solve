@@ -1,0 +1,151 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	// 1 . R(뒤집기) 순서를 뒤집는다. 
+	// 2 . D(버리기) 첫번째 숫자를 버린다.
+
+
+	int test;
+	cin >> test;
+
+	while (test--)
+	{
+		deque<int> dq;
+		int n;
+		string s;
+		string num;
+		cin >> s; // 실행할 함수
+		cin >> n; // 수의 개수
+		cin >> num; // 배열에 들어 있는 수 (string형태로)
+
+		
+
+
+		// dq에 수를 삽입하는 작업
+
+		string tmp = "";
+		for (unsigned int i = 0; i < num.length(); i++)
+		{
+			if (num[i] >= '0' && num[i] <= '9')
+			{
+				tmp += num[i];
+			}
+			else if (num[i] == ',')
+			{
+				dq.push_back(stoi(tmp));
+				tmp.clear();
+			}
+
+			else if (num[i] == ']')
+			{
+				if (tmp.size() >= 1)
+				{
+					dq.push_back(stoi(tmp));
+					tmp.clear();
+				}
+				else
+					break;
+			}
+		}
+
+		/////////////////////////////////////////////
+
+		// 함수 적용 
+
+		bool reverse = false; // reverse를 bool값으로 표현
+		// reverse가 true면 맨 뒤가 젤 처음이 되는 거니까 버릴 때 pop_back()
+		// false면 pop_front()
+
+		bool error = false;
+
+		for (unsigned int i = 0; i < s.size(); i++)
+		{
+			if (s[i] == 'R')
+				reverse = !reverse;
+			
+			else if (s[i] == 'D' && !dq.empty())
+			{
+				if (reverse)
+					dq.pop_back();
+				
+
+				else
+					dq.pop_front();
+			}
+
+			else if (s[i] == 'D' && dq.empty())
+			{
+				error = true; // deque가 비었는데 버릴 순 없으니 error를 true로
+				break;
+			}
+		}
+
+		int size = dq.size();
+
+		if (error)
+			cout << "error\n";
+		else
+		{
+			cout << '[';
+			if (!reverse)
+			{
+				for (int i = 0; i < size; i++)
+				{
+					if (i == size - 1)
+						cout << dq[i] ;
+					else
+						cout << dq[i] << ',';
+				}
+			}
+
+			else
+			{
+				for (int i = size-1; i > -1 ; i--)
+				{
+					if (i == 0)
+						cout << dq[i];
+					else
+						cout << dq[i] << ',';
+				}
+			}
+			cout << "]\n";
+		}
+		
+
+
+	}
+
+	return 0;
+}
