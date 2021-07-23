@@ -1,0 +1,100 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+int white = 0;
+int blue = 0;
+int Map[129][129];
+void func( int x, int y, int size)
+{
+	int color = Map[x][y]; // color 가 1이면 blue 0이면 white
+	bool same = false; // for문을 돌려서 정사각형만큼 색이 모두 같은지 확인
+	for (int i = x; i < x + size; i++)
+	{
+		for (int j = y; j < y + size; j++)
+		{
+			if (color == Map[i][j])
+				same = true;
+			else
+			{
+				same = false;
+				break;
+			}
+		}
+		if (!same)
+			break;
+	}
+
+	if (!same) // 색이 다른경우 size/2로 줄여나가서 확인함.
+	{
+		// 1
+		func(x, y, size / 2);
+		
+		// 2
+		func(x, y + size / 2, size / 2);
+
+		// 3
+		func(x + size / 2, y, size / 2);
+
+		// 4
+		func(x + size / 2, y + size / 2, size / 2);
+		return;
+	}
+
+	if (same && color == 1)
+		blue++;
+	else if (same && color == 0)
+		white++;
+
+}
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+	// vector<vector<int>> Map(n, vector<int>(n));
+    // 처음에 위와같이 벡터를 선언하고 , func의 매개변수에 vector<vector<int>> map을 넣어주는식으로
+    // 작성했는데, 참조자를 쓰지않고 그냥 복사하니 , 계속 2차원벡터를 복사해주는 형식으로 되서 
+    // 시간초과가 나는 것 같았다.
+    // 그래서 그냥 전역변수로 배열을 선언해주니 해결됨.
+    
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+			cin >> Map[i][j];
+	}
+
+	func(0, 0, n);
+
+	cout << white << '\n' << blue << '\n';
+	
+	return 0;
+}
+	
