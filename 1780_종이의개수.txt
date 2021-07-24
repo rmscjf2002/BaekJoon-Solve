@@ -1,0 +1,132 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+int Map[2188][2188];
+
+int zerocnt = 0; // 0으로 채워진 종이의 개수
+int minuscnt = 0; // -1로 채워진 종이의 개수
+int pluscnt = 0; // 1로 채워진 종이의 개수
+
+void func(int x, int y, int size) // x는 행 y는 열 
+{
+	int check = Map[x][y]; // -1,0,1 어떤 종이인지 확인
+	bool same = false;  // 같은지 확인하기 위한 bool 변수
+
+	for (int i = x; i < x + size; i++)
+	{
+		for (int j = y; j < y + size; j++)
+		{
+			if (check == Map[i][j])
+				same = true;
+
+			else
+			{
+				same = false;
+				break;
+			}
+		}
+		if (!same)
+			break;
+	}
+
+	if (same) // 만약 공간이 모두 같은 종이라면 cnt증가
+	{
+		if (check == 0)
+			zerocnt++;
+		else if (check == -1)
+			minuscnt++;
+		else
+			pluscnt++;
+	}
+
+	else // 공간이 다르다면 종이를 size/3으로 나눠서 다시 확인
+	{
+		// 1
+		
+		func(x, y, size / 3);
+
+		// 2
+
+		func(x, y + size / 3, size / 3);
+
+		// 3
+
+		func(x, y + size/3*2, size / 3);
+
+		// 4
+
+		func(x + size / 3, y, size / 3);
+
+		// 5
+
+		func(x + size / 3, y + size / 3, size / 3);
+
+		// 6 
+		
+		func(x + size / 3, y + size/3*2, size / 3);
+
+		// 7
+
+		func(x + size / 3 * 2, y, size / 3);
+
+		// 8
+
+		func(x + size / 3 * 2, y + size / 3, size / 3);
+
+		// 9
+
+		func(x + size / 3 * 2, y + size / 3 * 2, size / 3);
+
+		return;
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	int n;
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cin >> Map[i][j];
+		}
+	}
+
+
+	func(0, 0, n);
+
+	cout << minuscnt << '\n';
+	cout << zerocnt << '\n';
+	cout << pluscnt << '\n';
+
+
+	return 0;
+}
