@@ -1,0 +1,87 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	// 카테고리가 분할정복이지만 3중for문으로 단순구현이 되길래 찾아보니
+	// 원소의 개수가 여기서 더 커지면 분할정복 알고리즘을 사용해야해서 카테고리가 분할정복에 있음.
+
+	int matrix1[101][101];
+	int matrix2[101][101];
+	int ans[101][101] = { 0 };
+	// ans를 0으로 초기화 안해도 BOJ에서 정답처리가 되지만,
+	// vs2015에서 초기화를 안하면 쓰레기값이 출력되서 초기화 함.
+
+	int n, m;
+	cin >> n >> m;
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			cin >> matrix1[i][j];
+		}
+	}
+
+	int n2, m2;
+	cin >> n2 >> m2;
+
+
+	// m과 n2는 같은 값.
+	for (int i = 0; i < n2; i++)
+	{
+		for (int j = 0; j < m2; j++)
+		{
+			cin >> matrix2[i][j];
+		}
+	}
+
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m2; j++)
+		{
+			for (int k = 0; k < m; k++)
+			{
+				ans[i][j] += matrix1[i][k] * matrix2[k][j];
+			}
+			cout << ans[i][j] << ' ';
+			
+		}
+		cout << '\n';
+	}
+
+
+
+
+	return 0;
+}
+	
