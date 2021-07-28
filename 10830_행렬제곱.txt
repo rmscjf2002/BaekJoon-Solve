@@ -1,0 +1,106 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+typedef long long ll;
+typedef vector<vector<ll>> matrix;
+
+// typedef를 사용해서 코드를 좀 더 간략하게 쓸 수 있음.
+
+long long n, b; // B의 최대값이 100000000000이라서 long long으로 선언.
+
+
+
+// operator* 오버로딩으로 행렬의 곱셈을 표현하는 방식은
+// 생각치도 못했는데 좋은걸 배웠다.
+
+matrix operator*(const matrix &a, const matrix &b)
+{
+	matrix tmp(n, vector<ll>(n));
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			for (int k = 0; k < n; k++)
+			{
+				tmp[i][j] += a[i][k] * b[k][j];
+			}
+			tmp[i][j] %= 1000;
+		}
+	}
+	return tmp;
+}
+
+matrix func(matrix &a, ll B)
+{
+	// answer는 단위행렬  , 단위행렬 A * 행렬 E는 E
+	matrix answer(n, vector<ll>(n));
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			answer[i][i] = 1;
+
+	while (B > 0)
+	{
+		if (B % 2 == 1)
+		{
+			answer = answer * a;
+		}
+		B /= 2;
+		a = a * a;
+	}
+	return answer;
+}
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n >> b;
+	
+
+	matrix ans(n, vector<ll>(n));
+	
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			cin >> ans[i][j];
+
+
+	ans = func(ans, b);
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+			cout << ans[i][j] << ' ';
+		cout << '\n';
+	}
+	
+	
+	
+	return 0;
+}
+	
