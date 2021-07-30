@@ -1,0 +1,72 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+typedef long long ll;
+
+
+// Parametric Search
+// 최적화 문제를 결정 문제로 바꾸어 푸는 것
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int k, n; // k = 이미 가지고 있는 랜선 개수 , n = 필요한 랜선 개수
+	cin >> k >> n;
+
+	vector<int> v(k); // 랜선 저장 벡터
+
+	for (int i = 0; i < k; i++)
+		cin >> v[i];
+
+	sort(v.begin(), v.end());
+
+	ll start = 1;
+	ll mid;
+	ll end = v[k - 1];
+
+	while (start <= end)
+	{
+		ll cnt = 0;
+		mid = (start + end) / 2;
+		
+		for (int i = 0; i < k; i++)
+			cnt += v[i] / mid;
+		
+		if (cnt >= n)
+			start = mid + 1;
+		else
+			end = mid - 1;
+	
+	}
+
+	cout << end << '\n';
+
+
+	return 0;
+}
+	
