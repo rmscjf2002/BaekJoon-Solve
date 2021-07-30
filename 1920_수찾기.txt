@@ -1,0 +1,82 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	int n;
+	cin >> n;
+	vector<int> v;
+	for (int i = 0; i < n; i++)
+	{
+		int a;
+		cin >> a;
+		v.push_back(a);
+	}
+
+	int m;
+	cin >> m;
+
+	/*
+	for (int i = 0; i < m; i++)
+	{
+		int a;
+		cin >> a;
+		auto x = find(v.begin(), v.end(), a);
+		if (x != v.end())
+			cout << 1 << '\n';
+		else
+			cout << 0 << '\n';
+	}
+	*/
+	// 처음 풀 때는 위처럼 find로 풀었음.
+	// 위처럼 find를 써서 풀 수도 있지만, 시간이 1696ms가 나왔음.
+
+	// binary_search 쓰니까 시간이 52ms로 줄었음
+
+	vector<int> result(m);
+
+	for (int i = 0; i < m; i++)
+		cin >> result[i];
+
+	sort(v.begin(), v.end()); // binary_search를 하기전에 무조건 정렬
+
+	// binary_search()는 찾을 값이 있으면 true , 없으면 false반환
+	for (int i = 0; i < m; i++)
+	{
+		if (binary_search(v.begin(), v.end(), result[i]))
+			cout << 1 << '\n';
+		else
+			cout << 0 << '\n';
+	}
+	
+	
+	return 0;
+}
