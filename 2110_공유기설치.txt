@@ -1,0 +1,90 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+typedef long long ll;
+
+
+// Parametric Search
+// 최적화 문제를 결정 문제로 바꾸어 푸는 것
+
+
+// 앞의 같은유형의 2문제에 비해 이건 문제이해와 인덱스를 사용해야 되서
+// 풀기가 어려웠음.
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int n, c; // n = 집의 개수 , c = 공유기 개수
+	cin >> n >> c;
+	vector<ll> v(n); // 집의 좌표
+
+	for (int i = 0; i < n; i++)
+		cin >> v[i];
+
+	sort(v.begin(), v.end());
+
+
+	ll start = 1;
+	ll mid;
+	ll end = v[n - 1];
+	ll cnt;
+	ll max = 0;
+
+	while (start <= end)
+	{
+		int idx = 0;
+		cnt = 1; // 첫번째 공간에 설치를 1개하니까 1부터시작
+
+		mid = (start + end) / 2;
+
+		for (int i = 1; i < n; i++)
+		{
+			if (v[i] - v[idx] >= mid)
+			{
+				idx = i;
+				cnt++;
+			}
+		}
+
+		
+
+		if (cnt >= c)
+			start = mid + 1;
+		else
+			end = mid - 1;
+
+		if (max < mid && cnt >= c)
+			max = mid;
+
+		
+	}
+
+	cout << max << '\n';
+
+	return 0;
+}
