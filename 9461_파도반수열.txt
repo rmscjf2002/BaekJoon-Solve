@@ -1,0 +1,67 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+long long dp[101] = { 0 };
+
+
+// P(1) ~ P(10)
+// 1,1,1,2,2,3,4,5,7,9 
+// n이 3이상이면 아래와 같은 규칙 발생
+// P(3) = P(1) + P(0) -> P(n) = P(n-2) + P(n-3)
+// P(4) = P(2) + P(1) -> P(n) = P(n-2) + P(n-3)
+// P(5) = P(3) + P(2) -> P(n) = P(n-2) + P(n-3)
+
+long long func(long long n)
+{
+	if (n == 0)
+		return 0;
+	else if (n <= 2)
+		return 1;
+	else
+	{
+		if (dp[n] == 0)
+			return dp[n] = func(n - 2) + func(n - 3);
+		else
+			return dp[n];
+	}
+}
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int test;
+	cin >> test;
+
+	while (test--)
+	{
+		//memset(dp, 0, sizeof(dp));
+		long long a;
+		cin >> a;
+		cout << func(a) << '\n';
+	}
+
+	return 0;
+}
