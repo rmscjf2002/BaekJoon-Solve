@@ -1,0 +1,63 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int n;
+	cin >> n;
+
+	int dp[501][501] = { 0 };
+
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= i; j++)
+		{
+			cin >> dp[i][j];
+		}
+	}
+
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= i; j++)
+		{
+			dp[i][j] +=  max(dp[i - 1][j-1],dp[i - 1][j]);
+		}
+	}
+
+	
+	int answer = 0;
+
+	for (int i = 1; i <= n; i++)
+		answer = answer < dp[n][i] ? dp[n][i] : answer;
+
+	cout << answer << '\n';
+
+	return 0;
+}
