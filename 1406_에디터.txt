@@ -1,0 +1,93 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	list<char> _list;
+
+	list<char>::iterator iter = _list.end();
+	
+	string s;
+	cin >> s;
+
+	int length = s.length();
+
+	for (int i = 0; i < length; i++)
+		_list.push_back(s[i]);
+
+	int n;
+	cin >> n;
+	while (n--)
+	{
+		char c;
+		cin >> c;
+
+		if (c == 'L')
+		{
+			if (iter != _list.begin())
+				iter--;
+		}
+			
+		else if (c == 'D')
+		{
+			if(iter != _list.end())
+				iter++;
+		}
+		else if (c == 'B')
+		{
+			if (iter != _list.begin())
+			{
+				--iter;
+				iter = _list.erase(iter);
+				// _list.erase(iter)로 하면 iter가 무효한 포인터가 되버리기 때문에 에러 
+				// erase의 연산 리턴값을 iter에 저장해서 해결
+				// erase함수는 자신이 삭제한 노드의 다음 노드를 가르키는 iter을 반환
+			}
+		}
+
+		else if (c == 'P')
+		{
+			char tmp;
+			cin >> tmp;
+			_list.insert(iter, tmp);
+		}
+	}
+	
+
+	string ans = "";
+
+	for (iter = _list.begin(); iter != _list.end(); iter++)
+		ans += *iter;
+
+	cout << ans << '\n';
+
+	return 0;
+}
+	
