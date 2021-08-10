@@ -1,0 +1,116 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+int answer = 9999;
+int n, m; 
+bool visit[13] = { 0 }; // 조합 뽑을 때 확인하려고 쓰는 visit
+vector<pair<int, int>> house, chicken, tmpc; // house는 집의 좌표를 담을 벡터, chicken은 치킨집의 좌표를 담을 벡터 , tmpc는 chicken의 좌표를 m개만큼 담을 좌표
+
+int distance() // 거리를 구할 함수
+{
+	int ans = 0;
+	
+	for (unsigned int i = 0; i < house.size(); i++)
+	{
+		int tmpdist = 9999;
+		int x = house[i].first; // 집의 행좌표
+		int y = house[i].second; // 집의 열좌표
+
+		for (unsigned int j = 0; j < tmpc.size(); j++)
+		{
+			int cx = tmpc[j].first; // tmpc의 행좌표
+			int cy = tmpc[j].second; // tmpc의 열좌표
+			
+			tmpdist = min(tmpdist, abs(x - cx) + abs(y - cy));
+		}
+		ans += tmpdist;
+	}
+	return ans;
+}
+
+
+void DFS(int idx, int cnt, int size) // 조합을 구할 DFS
+{
+	if (cnt == m)
+	{
+		answer = min(answer, distance());
+		return;
+	}
+
+	for (int i = idx; i < size; i++)
+	{
+		if (visit[i])
+			continue;
+		visit[i] = true;
+		tmpc.push_back(chicken[i]);
+		DFS(i, cnt + 1, size);
+		tmpc.pop_back();
+		visit[i] = false;
+	}
+}
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	
+	cin >> n >> m;
+
+	vector<vector<int>> Map(n+1, vector<int>(n+1, 0)); // n+1*n+1의 2차원벡터, 행과열이 1부터 시작이므로 n+1
+	
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= n; j++)
+			cin >> Map[i][j];
+	}
+
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= n; j++)
+		{
+			if (Map[i][j] == 1)
+				house.push_back(make_pair(i, j));
+
+			else if (Map[i][j] == 2)
+				chicken.push_back(make_pair(i, j));
+		}
+	}
+
+	int chicsize = chicken.size();
+
+	DFS(0, 0, chicsize);
+
+	cout << answer << '\n';
+
+	
+	
+	
+	
+	return 0;
+}
+	
