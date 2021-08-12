@@ -1,0 +1,98 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+
+using namespace std;
+
+
+// 실버4지만 어려웠다.
+
+int GCD(int a, int b)
+{
+	if (b == 0)
+		return a;
+
+	return GCD(b, a%b);
+
+}
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int n;
+	cin >> n;
+
+
+
+	vector<int> v(n);
+	vector<int> diff;
+
+	for (int i = 0; i < n; i++)
+		cin >> v[i];
+
+	for (int i = 1; i < n; i++)
+		diff.push_back(v[i] - v[i - 1]);
+
+
+	int gcd = diff[0];
+
+	for (int i = 1; i < diff.size(); i++)
+		gcd = GCD(gcd, diff[i]);
+	
+
+	/*
+	int cnt = 0;
+	vector<int> ans;
+	ans.push_back(v[0]);
+	int i = 0;
+	while (1)
+	{
+		if (ans[i] + gcd == v[v.size() - 1])
+			break;
+		ans.push_back(ans[i] + gcd);
+		i++;
+	}
+	ans.push_back(v[v.size() - 1]);
+
+	sort(ans.begin(), ans.end());
+
+	for (unsigned int i = 0; i < ans.size(); i++)
+	{
+		if (binary_search(v.begin(), v.end(), ans[i]) == 0)
+			cnt++;
+	}
+	cout << cnt << '\n';
+	*/
+	// 위 주석코드처럼 binary_search로 풀었는데 메모리초과가 나왔음.
+
+	
+
+	int cnt = ((v[n - 1] - v[0]) / gcd) - n + 1;
+	
+	cout << cnt << '\n';
+
+	return 0;
+}
+	
