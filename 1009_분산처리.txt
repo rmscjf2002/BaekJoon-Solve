@@ -1,0 +1,58 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+// long long 최대범위를 초과해버림.
+// 규칙 -> 제곱할때 마다 a^4를 주기로 맨 뒤자리가 같음.
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int t;
+	cin >> t;
+	while (t--)
+	{
+		int a, b;
+		int tmp=1;
+		cin >> a >> b;
+		
+		b = !(b % 4) ? 4 : b % 4;
+
+		tmp = pow(a, b);
+
+		if (tmp % 10 == 0)
+			cout << 10 << '\n';
+		else
+			cout << tmp % 10 << '\n';
+
+	}
+	
+	return 0;
+}
+	
