@@ -1,0 +1,224 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	// 열은 A부터 H까지 -> 1~8  (66-알파벳)
+	// 행은 8부터 1 
+	// R (열 + ) , L (열 - ), B (행 - ) , T (행 + )
+	// RT (열 + , 행 + ) , LT ( 행 + , 열 - ) , RB (열 + 행 - ) , LB (열 - , 행 - )
+
+
+	string king, stone;
+	cin >> king >> stone;
+	int n;
+	cin >> n;
+	
+	int kingrow = (king[1] - '0');
+	int kingcolumns = 9 - (73 - king[0]);
+	
+
+	int stonerow = (stone[1] - '0');
+	int stonecolumns = 9 - (73 - stone[0]);
+
+	while (n--)
+	{
+		string s;
+		cin >> s;
+		if (s == "R")
+		{
+			if (kingcolumns + 1 < 9)
+			{
+				kingcolumns++;
+				if (kingrow == stonerow && kingcolumns == stonecolumns)
+				{
+					if (stonecolumns + 1 < 9)
+						stonecolumns++;
+					else
+						kingcolumns--;
+				}
+					
+			}
+		}
+
+		else if (s == "L")
+		{
+			if(kingcolumns -1 >0)
+			{
+				kingcolumns--;
+				if (kingrow == stonerow && kingcolumns == stonecolumns)
+				{
+					if (stonecolumns - 1 > 0)
+						stonecolumns--;
+					else
+						kingcolumns++;
+				}
+			}
+		}
+
+		else if (s == "B")
+		{
+			if (kingrow - 1 > 0)
+			{
+				kingrow--;
+				if (kingrow == stonerow && kingcolumns == stonecolumns)
+				{
+					if (stonerow - 1 > 0)
+						stonerow--;
+					else
+						kingrow++;
+				}
+			}
+		}
+
+		else if (s == "T")
+		{
+			if (kingrow + 1 < 9)
+			{
+				kingrow++;
+				if (kingrow == stonerow && kingcolumns == stonecolumns)
+				{
+					if (stonerow + 1 < 9)
+						stonerow++;
+					else
+						kingrow--;
+				}
+			}
+		}
+
+		else if (s == "RT")
+		{
+			if (kingrow + 1 < 9 && kingcolumns + 1 < 9)
+			{
+				kingrow++;
+				kingcolumns++;
+				if (kingrow == stonerow && kingcolumns == stonecolumns)
+				{
+					if(stonecolumns + 1 < 9 && stonerow + 1 < 9)
+					{
+						stonerow++;
+						stonecolumns++;
+					}
+					else
+					{
+						kingrow--;
+						kingcolumns--;
+					}
+				}
+			}
+		}
+
+		else if (s == "LT")
+		{
+		
+			if (kingrow + 1 < 9 && kingcolumns - 1 > 0)
+			{
+				kingrow++;
+				kingcolumns--;
+				if (kingrow == stonerow && kingcolumns == stonecolumns)
+				{
+					if (stonerow +1 <9 && stonecolumns - 1 > 0)
+					{
+						stonerow++;
+						stonecolumns--;
+					}
+					else
+					{
+						kingrow--;
+						kingcolumns++;
+					}
+				}
+			}
+
+		}
+
+		else if (s == "RB")
+		{
+			if (kingrow - 1 > 0 && kingcolumns + 1 < 9)
+			{
+				kingrow--;
+				kingcolumns++;
+				if (kingrow == stonerow && kingcolumns == stonecolumns)
+				{
+					if (stonerow - 1 > 0 && stonecolumns + 1 < 9)
+					{
+						stonerow--;
+						stonecolumns++;
+					}
+					else
+					{
+						kingrow++;
+						kingcolumns--;
+					}
+				}
+			}
+		}
+
+		else if (s == "LB")
+		{
+			
+			if (kingrow - 1 > 0 && kingcolumns - 1 > 0)
+			{
+				kingrow--;
+				kingcolumns--;
+				if (kingrow == stonerow && kingcolumns == stonecolumns)
+				{
+					if (stonerow - 1 > 0 && stonecolumns - 1 > 0)
+					{
+						stonerow--;
+						stonecolumns--;
+					}
+					else
+					{
+						kingrow++;
+						kingcolumns++;
+					}
+				}
+			}
+		}
+
+	}
+
+	
+	cout << (char)(73-9 + kingcolumns);
+	cout << kingrow << '\n';
+	cout << (char)(73-9 + stonecolumns);
+	cout << stonerow << '\n';
+
+
+
+
+	
+
+	return 0;
+}
