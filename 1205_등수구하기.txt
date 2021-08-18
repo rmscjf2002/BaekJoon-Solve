@@ -1,0 +1,109 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+// 100 90 90 80 -> 1 2 2 4 등
+// 리스트에 올라갈 수 있는 점수 개수 P, 리스트에 있는 점수 N , 송유진의 점수
+// 점수가 리스트에 못올라가면 -1 
+// 랭킹 리스트가 꽉 차 있으면 새 점수가 이전 점수보다 더 좋을 때만 점수 변경
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int N,P;
+	long long newScore;
+	cin >> N >> newScore >> P;
+
+	int ans = 0; 
+	vector<long long> v;
+
+	for (int i = 0; i < N; i++)
+	{
+		long long a;
+		cin >> a;
+		v.push_back(a);
+	}
+
+	bool change = false; // 랭킹 리스트가 가득 차 있을 때 들어갈 수 있는지 확인
+	bool end = false;
+	if (v.size() == P)
+	{
+		
+		for (int i = P-1; i >= 0; i--)
+		{
+			if (newScore > v[i])
+			{
+				v[i] = newScore;
+				change = true;
+			}
+			if (!change) // 리스트에 못들어갔으면 -1 
+				ans = -1;
+			else
+			{
+				sort(v.begin(), v.end(), greater<>());
+
+				for (int i = 0; i < P; i++)
+				{
+					if (v[i] == newScore)
+					{
+						ans = i + 1;
+						end = true;
+						break;
+					}
+				}
+				if (end)
+					break;
+			}
+		}
+	}
+
+	else
+	{
+		v.push_back(newScore);
+
+		sort(v.begin(), v.end(), greater<>());
+
+		for (unsigned int i = 0; i < v.size(); i++)
+		{
+
+			if (v[i] == newScore)
+			{
+				ans = i + 1;
+				break;
+			}
+		}
+	}
+	cout << ans << "\n"; 
+	
+
+	
+	return 0;
+}
+	
