@@ -1,0 +1,113 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int alphabet[26] = { 0 };
+
+// 팰린드롬을 만들 수 있는 조건 
+// 1. 모든 문자가 짝수개
+// 2. 하나의 문자가 홀수개 , 나머지 문자가 짝수개
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	string s;
+	cin >> s;
+	
+	int len = s.length();
+
+	for (int i = 0; i < len; i++)
+		alphabet[s[i] - 'A']++;
+
+	int check = 0; // 홀수갯수를 체크 2이상이면 팰린드롬 만들 수 없다.
+	bool error = false;
+
+	vector<pair<char,int>> ans;
+	vector<char> mid; 
+	
+	for (int i = 0; i < 26; i++) 
+	{
+
+		if (alphabet[i] % 2 == 1) // 홀수체크
+			check++;
+
+		if (check >= 2) // 홀수인 문자가 2개이상이면 불가능하므로 바로 종료하고 출력
+		{
+			error = true;
+			break;
+		}
+		
+	}
+
+	
+	if (error)
+		cout << "I'm Sorry Hansoo\n";
+
+	else
+	{
+		for (int i = 0; i < 26; i++)
+		{
+			if (alphabet[i] % 2 == 1)
+			{
+				mid.push_back(i + 'A');
+				ans.push_back(make_pair(i + 'A',alphabet[i]-1));	
+			}
+
+			else
+				ans.push_back(make_pair(i + 'A',alphabet[i]));
+
+		}
+		
+		
+		string tmp = "";
+		string answer = "";
+		for (unsigned int i = 0; i < ans.size(); i++)
+		{
+			for (int j = 0; j < (ans[i].second / 2); j++)
+				tmp += ans[i].first;
+		}
+		
+		for (unsigned int i = 0; i < tmp.size(); i++)
+			answer += tmp[i];
+		
+		if (!mid.empty())
+			answer += mid[0];
+		
+		for (int i = tmp.size() - 1; i >= 0; i--)
+			answer += tmp[i];
+		
+		cout << answer << '\n';
+
+	}
+	
+	
+	return 0;
+}
+	
