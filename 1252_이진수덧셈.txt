@@ -1,0 +1,216 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	string s1 ="", s2="";
+	string s3 ="";
+	
+	cin >> s1 >> s2;
+	bool carry = false;
+
+	reverse(s1.begin(), s1.end());
+	reverse(s2.begin(), s2.end());
+
+	if (s1.length() > s2.length())
+	{
+		for (int i = 0; i < s2.length(); i++)
+		{
+			if (carry)
+			{
+		
+				if (s1[i] == '1' && s2[i] == '1')
+				{
+					s3 += '1';
+					carry = true;
+				}
+
+				else if (s1[i] == '0' && s2[i] == '0')
+				{
+					s3 += '1';
+					carry = false;
+				}
+
+				else
+				{
+					s3 += '0';
+					carry = true;
+				}	
+			}
+
+			else
+			{
+			
+				if (s1[i] == '1' && s2[i] == '1')
+				{
+					s3 += '0';
+					carry = true;
+				}
+
+				else if (s1[i] == '0' && s2[i] == '0')
+				{
+					s3 += '0';
+					carry = false;
+				}
+
+				else
+				{
+					s3 += '1';
+					carry = false;
+				}
+			}
+			
+
+
+		}
+		int idx = s2.length();
+		while (s3.length() != s1.length())
+		{
+			if (carry)
+			{
+				if (s1[idx] == '1')
+				{
+					s3 += '0';
+					carry = true;
+				}
+
+				else
+				{
+					s3 += '1';
+					carry = false;
+				}
+			}
+			else
+				s3 += s1[idx];
+
+			idx++;
+		}
+	}
+
+	else
+	{
+		for (int i = 0; i < s1.length(); i++)
+		{
+			if (carry)
+			{
+
+				if (s1[i] == '1' && s2[i] == '1')
+				{
+					s3 += '1';
+					carry = true;
+				}
+
+				else if (s1[i] == '0' && s2[i] == '0')
+				{
+					s3 += '1';
+					carry = false;
+				}
+
+				else
+				{
+					s3 += '0';
+					carry = true;
+				}
+			}
+
+			else
+			{
+
+				if (s1[i] == '1' && s2[i] == '1')
+				{
+					s3 += '0';
+					carry = true;
+				}
+
+				else if (s1[i] == '0' && s2[i] == '0')
+				{
+					s3 += '0';
+					carry = false;
+				}
+
+				else
+				{
+					s3 += '1';
+					carry = false;
+				}
+			}
+
+
+
+		}
+		int idx = s1.length();
+		while (s3.length() != s2.length())
+		{
+			if (carry)
+			{
+				if (s2[idx] == '1')
+				{
+					s3 += '0';
+					carry = true;
+				}
+
+				else
+				{
+					s3 += '1';
+					carry = false;
+				}
+			}
+			else
+				s3 += s2[idx];
+
+			idx++;
+		}
+	}
+
+	if (carry)
+		s3 += '1';
+	reverse(s3.begin(), s3.end());
+
+	if (s3.find('1') == string::npos) // 1이 없으면 0
+	{
+		s3 = "0"; // 000 + 000 일때 000으로 출력해서 틀렸음
+		          // 000 이나 00 이나 0이나 같은 0이므로 0으로 바꾸니 해결
+		cout << s3 << '\n';
+	}
+
+	else
+	{
+		while (s3[0] == '0')
+			s3.erase(s3.begin());
+		cout << s3 << '\n';
+	}
+	
+	
+	return 0;
+}
+	
