@@ -1,0 +1,105 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+// 윤년 -> 양력에서 4년에 하루 늘어나는 것
+// 1,3,5,7,8,10,12 -> 31일까지
+// 4,6,9,11 -> 30일까지
+// 2월 -> 윤년이면 29일까지, 평년이면 28일까지.
+
+
+int calDay(int month, int year)
+{
+	
+	int cnt = 0; // 일수 계산
+	int tmpy = year;
+	int check = 0; // 12월이면 연도를 올리기위해 사용
+	
+	int  mon = 1;
+	while (mon != month)
+	{
+	
+		if ((mon % 12) == 1 || (mon % 12) == 3 || (mon % 12) == 5 || (mon % 12) == 7 || (mon % 12) == 8 || (mon % 12) == 10 || (mon % 12) == 0) 
+			cnt += 31;
+
+		else if ((mon % 12) == 4 || (mon % 12) == 6 || (mon % 12) == 9 || (mon % 12) == 11)
+			cnt += 30;
+		else if ((mon % 12) == 2)
+		{
+			if ((tmpy % 4 == 0 && tmpy % 100 != 0) || (tmpy % 400 == 0))
+				cnt += 29;
+			else
+				cnt += 28;
+		}
+		mon++;
+		check++;
+		if (check % 12 == 0)
+			tmpy++;
+	}
+	return cnt;
+}
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int year, month, day, sum = 0;
+	int dyear, dmonth, dday, dsum = 0;
+
+	cin >> year >> month >> day;
+	cin >> dyear >> dmonth >> dday;
+
+	string ans = "";
+	
+	// 1000년이상 차이나면 gg
+	if (dyear >= year + 1000 && dmonth >= month && dday >= day)
+		ans = "gg";
+
+	else
+	{
+		if (dyear > year) 
+			dmonth += (dyear - year) * 12;
+		
+		
+		sum = calDay(month, year);
+		sum += day;
+		dsum = calDay(dmonth, year);
+		dsum += dday;
+
+		ans = "D-";
+        ans += to_string(dsum-sum);
+
+	}
+	
+	cout << ans <<  '\n';
+	return 0;
+}
+	
