@@ -1,0 +1,71 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+
+// 단순 구현으로 풀려고했으나 잘되지 않아서 다른사람 것을 참고함
+// 벡터를 사용해서 쉽게 구현함.
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int N, L, D;
+	cin >> N >> L >> D;
+
+	int sec = 0;
+	vector<int> v;
+
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < L; j++) // 벨소리를 못듣는 구간
+			v.push_back(1);
+
+		for (int j = 0; j < 5; j++) // 노래중간 쉬는시간 (벨소리 듣기가능)
+			v.push_back(0);
+	}
+
+	while (1)
+	{
+		if (sec > v.size()) // sec가 앨범이 끝날 때를 의미하므로 브레이크
+			break;
+
+		if (v[sec] == 0) // 쉬는시간에 벨소리가 울린 것이므로 그 시간대 출력
+			break;
+
+		else
+			sec = sec + D; // 나는 처음에 계속 1씩증가시켰는데 단순히 전화벨만큼 증가시키면 되는거였음.
+	}
+
+	cout << sec << '\n';
+
+	return 0;
+}
+	
