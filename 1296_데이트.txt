@@ -1,0 +1,120 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	string s;
+	cin >> s;
+
+	int n;
+	cin >> n;
+	vector<string> v(n);
+	vector<pair<string,int>> ans;
+	int Love[4] = { 0 }; // 0 -> L개수 1 -> O개수 2 -> V개수 3 -> E개수
+	for (int i = 0; i < n; i++)
+	{
+		cin >> v[i];
+		memset(Love, 0, sizeof(Love));
+		
+		for (int j = 0; j < s.length(); j++)
+		{
+			if (s[j] == 'L')
+				Love[0]++;
+
+			if (s[j] == 'O')
+				Love[1]++;
+
+			if (s[j] == 'V')
+				Love[2]++;
+
+			if (s[j] == 'E')
+				Love[3]++;
+		}
+
+		for (int j = 0; j < v[i].length(); j++)
+		{
+			if (v[i][j] == 'L')
+				Love[0]++;
+
+			if (v[i][j] == 'O')
+				Love[1]++;
+
+			if (v[i][j] == 'V')
+				Love[2]++;
+
+			if (v[i][j] == 'E')
+				Love[3]++;
+		}
+
+		int sum = 1;
+
+		for (int j = 0; j < 3; j++)
+		{
+			for (int k = j+1; k < 4; k++)
+			{
+				sum *= (Love[j] + Love[k]);
+			}
+			sum %= 100;
+		}
+		
+		if (ans.empty())
+		{
+			
+			ans.push_back({ v[i],sum });
+		}
+		else
+		{
+			if (ans[0].second < sum)
+			{
+				ans.erase(ans.begin());
+				ans.push_back({ v[i],sum });
+			}
+
+			else if (ans[0].second == sum)
+			{
+				ans.push_back({ v[i],sum });
+				sort(ans.begin(), ans.end());
+				ans.erase(ans.begin() + 1);
+			}
+		}
+
+	}
+
+	cout << ans[0].first << '\n';
+
+	return 0;
+}
+	
