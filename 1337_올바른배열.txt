@@ -1,0 +1,118 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+	vector<int> v;
+	int ans = 0;
+
+	for (int i = 0; i < n; i++)
+	{
+		int a;
+		cin >> a;
+		v.push_back(a);
+	}
+
+	/*
+	sort(v.begin(), v.end(),greater<>());
+
+	int start;
+	int cnt;
+	int Max;
+	int ans = 10001;
+	int com = 1;
+	while (com != 5)
+	{
+		cnt = 1;
+		Max = 0;
+		start = v[0];
+		for (unsigned int i = 1; i < v.size(); i++)
+		{
+		
+			if (start - v[i] == com)
+			{
+				cout << "확인 : " << cnt << ',' << v[i] << '\n';
+				cnt++;
+				start = v[i];
+				Max = max(Max, cnt);
+			}
+
+			else
+			{
+				cnt = 1;
+				start = v[i];
+				Max = max(Max, cnt);
+			}
+		}
+		if (Max > 5)
+			Max = 5;
+		else
+			Max = 5 - Max;
+		ans = min(ans, Max);
+		com++;
+	}
+	
+	cout << ans << '\n';
+	*/ // 25%에서 틀렸습니다 
+	// 반례 n = 5  v[1,2,3,5,7] <- 정답 : 1개 출력 : 2개 
+
+	sort(v.begin(), v.end());
+
+	for (int i = 0; i < n; i++)
+	{
+		int com = 0;
+		int cnt = 1;
+
+		for (int j = i + 1; j < n; j++)
+		{
+			int diff = v[j] - v[j - 1];
+			com += diff;
+
+			if (com >= 5) // 그냥 차이값을 계속 더해서 차이값이 5를 초과하면 그때의 cnt를 뽑으면됨.
+				break;
+			cnt++;
+		}
+		ans = max(ans, cnt);
+	}
+
+	cout << 5 - ans << '\n';
+
+	return 0;
+}
+	
