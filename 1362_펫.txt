@@ -1,0 +1,100 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	// 펫의 실제 체중이 적정체중의 1/2배를 초과하면서 2배미만이면 행복함
+	// 펫의 실제 체중이 0 이하일 경우 펫은 사망 , 그외는 슬픔.
+
+	// E 숫자 <- 펫 운동  (n만큼 시간이 지나면 체중이 n감소)
+	// F 숫자 <- 펫 먹이  (펫의 체중이 n 증가)
+
+	float o, w; // o - 적정 체중 , w - 실제 체중
+	
+	int cnt = 1;
+	bool death;
+
+	// 나는 첫번째 시나리오에서 죽으면 그 다음 시나리오의 
+	// 작동이 멈추는 줄 알았는데 그게 아니었다.
+	while (1)
+	{
+		death = false; // <- 시나리오별로 펫은 새로운 펫이어서 안죽은 상태로 계속 초기화해줘야됨.
+		cin >> o >> w;
+		if (o == 0 && w == 0)
+			break;
+		while (1)
+		{
+			char c;
+			float n;
+			cin >> c >> n;
+
+			if (c == '#' && n == 0)
+			{
+				cout << cnt << ' ';
+
+				if (death)
+				{
+					cout << "RIP\n";
+					cnt++;
+				}
+
+				else if ((w * 2 > o) && (w < o * 2))
+				{
+					cout << ":-)\n";
+					cnt++;
+				}
+
+				else
+				{
+					cout << ":-(\n";
+					cnt++;
+				}
+				break;
+			}
+
+			else if (c == 'E')
+			{
+				w -= n;
+				if (w <= 0)
+					death = true;
+
+			}
+			else if (c == 'F')
+				w += n;
+
+		}
+	}
+	
+
+	return 0;
+}
+	
