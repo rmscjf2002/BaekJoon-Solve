@@ -1,0 +1,193 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int hourTosec(int h)
+{
+	h *= 3600;
+	return h;
+}
+
+int minTosec(int m)
+{
+	m *= 60;
+	return m;
+}
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	string cur;
+	cin >> cur;
+
+	string start;
+	cin >> start;
+	
+	vector<int> hour;
+	vector<int> min;
+	vector<int> sec;
+
+	int n = 0;
+	int cnt = 1;
+	for (int i = 0; i < 8; i++)
+	{
+		if (cur[i] == ':')
+		{
+			if (cnt == 1)
+			{
+				hour.push_back(n);
+				cnt++;
+				n = 0;
+			}
+
+			else if (cnt == 2)
+			{
+				min.push_back(n);
+				n = 0;
+			}
+		}
+		else
+		{
+			n *= 10;
+			n += cur[i] - '0';
+		}
+	}
+
+	sec.push_back(n);
+
+	cnt = 1;
+	n = 0;
+	for (int i = 0; i < 8; i++)
+	{
+		if (start[i] == ':')
+		{
+			if (cnt == 1)
+			{
+				hour.push_back(n);
+				cnt++;
+				n = 0;
+			}
+
+			else if (cnt == 2)
+			{
+				min.push_back(n);
+				n = 0;
+			}
+		}
+
+		else
+		{
+			n *= 10;
+			n += start[i] - '0';
+		}
+	}
+	sec.push_back(n);
+	
+	int curtime = sec[0];
+	curtime += hourTosec(hour[0]);
+	curtime += minTosec(min[0]);
+
+	int starttime = sec[1];
+	starttime += hourTosec(hour[1]);
+	starttime += minTosec(min[1]);
+
+
+	if (starttime > curtime)
+	{
+		int ans = starttime - curtime;
+		int ansh = 0;
+		int ansm = 0;
+
+
+
+		if (ans / 3600 != 0)
+		{
+			ansh += ans / 3600;
+			ans %= 3600;
+		}
+
+		if (ans / 60 != 0)
+		{
+			ansm += ans / 60;
+			ans %= 60;
+		}
+
+		cout.width(2);
+		cout.fill('0');
+		cout << ansh;
+		cout << ':';
+		cout.width(2);
+		cout.fill('0');
+		cout << ansm;
+		cout << ':';
+		cout.width(2);
+		cout.fill('0');
+		cout << ans << '\n';
+
+	}
+
+	else
+	{
+		int ans = curtime - starttime;
+		ans = (3600 * 24) - ans;
+		int ansh = 0;
+		int ansm = 0;
+
+
+
+		if (ans / 3600 != 0)
+		{
+			ansh += ans / 3600;
+			ans %= 3600;
+		}
+
+		if (ans / 60 != 0)
+		{
+			ansm += ans / 60;
+			ans %= 60;
+		}
+
+		cout.width(2);
+		cout.fill('0');
+		cout << ansh;
+		cout << ':';
+		cout.width(2);
+		cout.fill('0');
+		cout << ansm;
+		cout << ':';
+		cout.width(2);
+		cout.fill('0');
+		cout << ans << '\n';
+	}
+
+	
+
+	return 0;
+}
+	
