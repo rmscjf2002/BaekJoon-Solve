@@ -1,0 +1,91 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n, m, b;
+	cin >> n >> m >> b;
+
+	// n 행  m 열  b 인벤토리 블록개수
+
+
+	vector<vector<int>> Land(n,vector<int>(m));
+	int minh = 257; // 최소높이
+	int maxh = 0; // 최대높이
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			cin >> Land[i][j];
+			minh = min(Land[i][j], minh);
+			maxh = max(Land[i][j], maxh);
+		}
+	}
+
+	
+	int anst = 2100000000; // 최대값을 작게 잡아놔서 계속 틀렸음.
+	int ansh = 0;
+
+
+	for (int i = minh; i <= maxh; i++) // 높이 
+	{
+		int fill = 0; // 블럭채우기
+		int remove = 0; // 블럭제거
+		for (int j = 0; j < n; j++)
+		{
+			for (int k = 0; k < m; k++)
+			{
+				int tmp = Land[j][k] - i;
+
+				if (tmp > 0) // 현재 높이 - 구하는 높이 가 양수면 
+					remove += tmp; // 채우는 횟수 + 
+				else if(tmp < 0)
+					fill -= tmp; // 음수면 제거횟수 + 
+			}
+		}
+		if (remove + b >= fill) // 인벤토리에 블럭이 없으면 채울 수 없으므로 블럭이 있을 경우만 실행
+		{
+			int time = remove * 2 + fill;
+			if (anst >= time)
+			{
+				anst = time;
+				ansh = i;
+			}
+		}
+
+	}
+
+	cout << anst << ' ' << ansh << '\n';
+	
+	return 0;
+}
+	
