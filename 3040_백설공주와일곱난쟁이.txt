@@ -1,0 +1,70 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	vector<int> v(9);
+	bool check = false;
+	int sum = 0;
+	for (int i = 0; i < 9; i++)
+	{
+		cin >> v[i];
+		sum += v[i];
+	}
+	for (int i = 0; i < 9; i++)
+	{
+		int a, b;
+		a = v[i];
+		for (int j = i + 1; j < 9; j++)
+		{
+			b = v[j];
+			if (sum - (v[i] + v[j]) == 100)
+			{
+				check = true;
+				for (int k = 0; k < 9; k++)
+				{
+					if (k == i || k == j)
+						continue;
+
+					cout << v[k] << '\n';
+				}
+			}
+			if (check)
+				break;
+		}
+		if (check)
+			break;
+	}
+	return 0;
+}
+	
