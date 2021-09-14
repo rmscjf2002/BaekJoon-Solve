@@ -1,0 +1,82 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	map<string,int> a; // 듣도 못한 사람
+	map<string,int> b; // 보도 못한 사람
+	vector<string> ans;
+
+	int n, m;
+	cin >> n >> m;
+
+	for (int i = 0; i < n; i++)
+	{
+		string s;
+		cin >> s;
+		a[s] = 1;
+	}
+
+	for (int i = 0; i < m; i++)
+	{
+		string s;
+		cin >> s;
+		b[s] = 1;
+	}
+
+	if (n > m)
+	{
+		for (auto iter : b)
+		{
+			if (a.find(iter.first) != a.end())
+				ans.push_back(iter.first);
+		}
+		
+	}
+
+	else
+	{
+		for (auto iter : a)
+		{
+			if (b.find(iter.first) != b.end())
+				ans.push_back(iter.first);
+		}
+	}
+	cout << ans.size() << '\n';
+	sort(ans.begin(), ans.end());
+	for (int i = 0; i < ans.size(); i++)
+		cout << ans[i] << '\n';
+
+
+	return 0;
+}
+	
