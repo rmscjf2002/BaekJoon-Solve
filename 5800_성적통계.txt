@@ -1,0 +1,64 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	int k;
+	cin >> k;
+
+	for (int i = 1; i <= k; i++)
+	{
+		int n;
+		cin >> n;
+		vector<int> v(n);
+
+		for (int j = 0; j < n; j++)
+			cin >> v[j];
+
+		sort(v.begin(), v.end());
+
+		cout << "Class " << i << '\n';
+		cout << "Max " << v[n - 1] << ',' << " Min " << v[0] << ',' << " Largest gap ";
+		// 23 25 30 76 78
+		
+		int Maxdiff = 0;
+		for (int j = 0; j < n-1; j++)
+			Maxdiff = max(v[j + 1] - v[j], Maxdiff);
+
+		cout << Maxdiff << '\n';
+		
+	}
+	
+	return 0;
+}
+	
