@@ -1,0 +1,152 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+#define MOD 1000000007
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+
+	/*
+	string tmp;
+	for (int i = 1; i <= n * 2 + 1; i++)
+	{
+		if (i % 2 == 1)
+			tmp += 'I';
+		else
+			tmp += 'O';
+	}
+
+	while (s.find(tmp) != string::npos)
+	{
+		ans++;
+		int iter = s.find(tmp);
+		s.replace(iter, 1, "*");
+		
+	}
+
+	cout << ans << '\n';
+
+	*/ // 위처럼 replace하는식으로 단순 구현 했을 시 50점까지만 맞고
+	// 나머지 50점 부분은 시간초과가 남
+	// 라빈 카프 알고리즘을 알게 됨.
+
+	/*
+	string tmp;
+	for (int i = 1; i <= n * 2 + 1; i++)
+	{
+		if (i % 2 == 1)
+			tmp += 'I';
+		else
+			tmp += 'O';
+	}
+
+	long long parentlen = len;
+	long long  patternlen = tmp.length();
+
+	long long parentHash = 0, patternHash = 0, power = 1;
+
+	for (int i = 0; i <= parentlen - patternlen; i++)
+	{
+		if (i == 0)
+		{
+			for (long long j = 0; j < patternlen; j++)
+			{
+				parentHash = (parentHash + s[patternlen - 1 - j] * power) % MOD % MOD;
+				patternHash = (patternHash + tmp[patternlen - 1 - j] * power) % MOD % MOD;
+				parentHash %= MOD;
+				patternHash %= MOD;
+				
+				if (j < patternlen - 1)
+					power = (power%MOD * 31) % MOD % MOD;
+			}
+		}
+
+		else
+		{
+			parentHash = 31*((parentHash - s[i - 1] * power) % MOD % MOD) + s[patternlen - 1 + i];
+			parentHash %= MOD;
+		}
+
+
+		if (parentHash == patternHash)
+		{
+			bool finish = true;
+
+			for (int j = 0; j < patternlen; j++)
+			{
+				if (s[i + j] != tmp[j])
+				{
+					finish = false;
+					break;
+				}
+			}
+
+			if (finish)
+				ans++;
+		}
+	}
+	
+	*/
+	// 라빈 카프 알고리즘을 썼는데 틀렸습니다가 나옴.
+
+	// 그러다 찾아보니 패턴이 일정하기 때문에 굳이 알고리즘을 사용하지 않아도 O(n)의 복잡도로 구현이 가능했다.
+
+	long long ans = 0;
+	long long n, len;
+	string s;
+	cin >> n >> len >> s;
+	
+	for (int i = 0; i < len; i++)
+	{
+		int patternLen = 0;
+
+		if (s[i] == 'O')
+			continue;
+
+		else
+		{
+			while (s[i + 1] == 'O' && s[i + 2] == 'I')
+			{
+				patternLen++;
+				if (patternLen == n)
+				{
+					patternLen--;
+					ans++;
+				}
+				i += 2;
+			}
+			patternLen = 0;
+		}
+	}
+	cout << ans << '\n';
+
+	return 0;
+}
+	
