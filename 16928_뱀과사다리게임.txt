@@ -1,0 +1,101 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int n, m; // n : 사다리 의 수 , m : 뱀의 수 
+int board[101] = { 0 };
+bool visit[101] = { 0 };
+
+
+void BFS()
+{
+	queue<pair<int, int>> q;
+	q.push({ 1,0 });
+	visit[1] = true;
+
+	while (!q.empty())
+	{
+		int x = q.front().first;
+		int result = q.front().second;
+		
+		q.pop();
+
+		if (x == 100)
+		{
+			cout << result << '\n';
+			return;
+		}
+
+		for (int i = 1; i <= 6; i++)
+		{
+			int nx = x + i;
+			if (nx <= 100 && !visit[nx])
+			{
+				visit[nx] = true;
+
+				if (board[nx] != 0)
+					q.push({ board[nx],result + 1 });
+				else
+					q.push({ nx,result + 1 });
+			}
+		}
+	}
+
+
+
+
+
+	
+}
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	cin >> n >> m;
+
+
+	for (int i = 0; i < n; i++)
+	{
+		int start, end;
+		cin >> start >> end;
+		board[start] = end;
+	}
+
+	for (int i = 0; i < m; i++)
+	{
+		int start, end;
+		cin >> start >> end;
+		board[start] = end;
+	}
+
+	BFS();
+
+
+
+	return 0;
+}
+	
