@@ -1,0 +1,147 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+bool visit[10];
+
+bool check(int _n)
+{
+	string s = to_string(_n);
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (!visit[s[i] - '0'])
+			return false;
+	}
+
+	return true;
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	/*
+	int n;
+	cin >> n;
+
+	int m;
+	cin >> m;
+
+
+	
+	int start = 100;
+
+	bool visit[10];
+	memset(visit, true, sizeof(visit));
+
+	for (int i = 0; i < m; i++)
+	{
+		int a;
+		cin >> a;
+		visit[a] = false;
+	}
+
+	
+
+	string tmp = to_string(n);
+	int ans = tmp.size();
+	string result = "";
+
+	for (int i = 0; i < tmp.length(); i++)
+	{
+		if (visit[tmp[i] - '0'])
+		{
+			result += tmp[i];
+		}
+
+		else if(!visit[tmp[i]-'0'])
+		{
+			int idx = 0;
+			int comp = 123456;
+			for (int j = 9; j >= 0; j--)
+			{
+				if (visit[j])
+				{
+					if (comp > abs(j - (tmp[i] - '0')))
+					{
+						comp = abs(j - (tmp[i] - '0'));
+						idx = j;
+					}
+				
+				}
+			}
+
+			result += to_string(idx);
+		}
+	}
+
+	
+
+	ans += abs(stoi(tmp) - stoi(result));
+	cout << min(abs(start-n),min(tmpans,ans)) << '\n';
+	*/
+	// 위의코드 -> 예제는 맞았으나, 
+	// 10
+	// 9
+	// 0 1 2 3 4 5 6 7 8 의 반례가 존재함
+	// 한자리 수일때 구현이 안되서 위 알고리즘은 실패
+
+
+	int n;
+	cin >> n;
+
+	int m;
+	cin >> m;
+
+	
+	memset(visit, true, sizeof(visit));
+
+	for (int i = 0; i < m; i++)
+	{
+		int a;
+		cin >> a;
+		visit[a] = false;
+	}
+
+	string tmp = to_string(n);
+
+	int ans = abs(n - 100);
+	
+	
+	for (int i = 0; i <= 1000000; i++)
+	{
+		if (check(i))
+		{
+			int itmp = abs(n - i) + to_string(i).length();
+			ans = min(ans, itmp);
+		}
+	}
+
+	cout << ans << '\n';
+
+	return 0;
+}
