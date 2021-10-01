@@ -1,0 +1,152 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int type[4][2] = 
+{
+	{1,0},
+	{-1,0},
+	{0,1},
+	{0,-1}
+};
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+	vector<vector<char>> board(n, vector<char>(n));
+
+	for (int i = 0; i < n; i++)
+	{
+		for(int j=0; j<n; j++)
+			cin >> board[i][j];
+	}
+
+	bool visit[101][101] = { 0 };
+
+	queue<pair<int, int>> q;
+
+	int area1 = 0;
+	int area2 = 0;
+
+	// 적록색약이 아닌 사람의 구역 구하기
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (!visit[i][j])
+			{
+				area1++;
+
+				visit[i][j] = true;
+
+				q.push({ i,j });
+
+				while (!q.empty())
+				{
+					int x = q.front().first;
+					int y = q.front().second;
+					q.pop();
+					char color = board[x][y];
+
+					for (int i = 0; i < 4; i++)
+					{
+						int nx = x + type[i][0];
+						int ny = y + type[i][1];
+
+						if (nx >= 0 && nx < n && ny >=0 && ny < n && !visit[nx][ny] && board[nx][ny] == color)
+						{
+							visit[nx][ny] = true;
+							q.push({ nx,ny });
+						}
+					}
+
+				}
+			}
+		}
+	}
+
+	// 적록색약인 사람의 구역구하기
+	memset(visit, false, sizeof(visit));
+	while (!q.empty())
+		q.pop();
+
+	// 녹색을 빨간색으로 바꾸기
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (board[i][j] == 'G')
+				board[i][j] = 'R';
+		}
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (!visit[i][j])
+			{
+				area2++;
+
+				visit[i][j] = true;
+
+				q.push({ i,j });
+
+				while (!q.empty())
+				{
+					int x = q.front().first;
+					int y = q.front().second;
+					q.pop();
+					char color = board[x][y];
+
+					for (int i = 0; i < 4; i++)
+					{
+						int nx = x + type[i][0];
+						int ny = y + type[i][1];
+
+						if (nx >= 0 && nx < n && ny >= 0 && ny < n && !visit[nx][ny] && board[nx][ny] == color)
+						{
+							visit[nx][ny] = true;
+							q.push({ nx,ny });
+						}
+					}
+
+				}
+			}
+		}
+	}
+
+
+	cout << area1 << ' ' << area2 << '\n';
+
+	
+	return 0;
+}
+	
