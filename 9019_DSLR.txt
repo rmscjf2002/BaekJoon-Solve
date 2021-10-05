@@ -1,0 +1,110 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+bool visited[10001] = { 0 };
+
+void BFS(int _a, int _b)
+{
+	queue<pair<int, string>> q; // int형에 숫자, string형에 D,S,L,R 추가
+	q.push({ _a,"" });
+	visited[_a] = true;
+
+	while (!q.empty())
+	{
+		int curn = q.front().first;
+		string ans = q.front().second;
+		q.pop();
+
+		if (curn == _b)
+		{
+			cout << ans << '\n';
+			return;
+		}
+
+		int D, S, L, R;
+
+		if (curn * 2 > 9999)
+			D = (curn * 2) % 10000;
+		else
+			D = (curn * 2);
+
+		if (!visited[D])
+		{
+			visited[D] = true;
+			q.push({ D,ans + "D" });
+		}
+
+		if (curn - 1 < 0)
+			S = 9999;
+		else
+			S = curn - 1;
+
+		if (!visited[S])
+		{
+			visited[S] = true;
+			q.push({ S,ans + "S" });
+		}
+
+		L = (curn % 1000) * 10 + (curn / 1000);
+		if (!visited[L])
+		{
+			visited[L] = true;
+			q.push({ L,ans + "L" });
+		}
+
+		R = (curn % 10) * 1000 + curn / 10;
+
+		if (!visited[R])
+		{
+			visited[R] = true;
+			q.push({ R,ans + "R" });
+		}
+	}
+}
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+
+	int t;
+	cin >> t;
+
+	while (t--)
+	{
+		int a, b;
+		cin >> a >> b;
+		memset(visited, false, sizeof(visited));
+		BFS(a, b);
+	}
+
+	
+	return 0;
+}
