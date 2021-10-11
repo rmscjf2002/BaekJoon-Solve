@@ -1,0 +1,67 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	int n;
+	cin >> n;
+
+	string s;
+	cin >> s;
+
+	string result;
+	cin >> result;
+
+	
+
+	while (n--)
+	{
+		for (int i = 0; i < s.length(); i++)
+		{
+			if (s[i] == '1')
+				s[i] = '0';
+			else
+				s[i] = '1';
+		}
+	}
+
+	if (result == s)
+		cout << "Deletion succeeded\n";
+	else
+		cout << "Deletion failed\n";
+	
+	
+	return 0;
+}
+	
