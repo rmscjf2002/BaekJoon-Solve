@@ -1,0 +1,143 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int n;
+int type[4][2] = 
+{
+	{1,0},
+	{-1,0},
+	{0,1},
+	{0,-1}
+};
+
+int board[21][21] = { 0 };
+int visit[21][21] = { 0 };
+
+int shark = 2;
+int eat = 0;
+int dist;
+int sharkx, sharky;
+int ans;
+vector<tuple<int, int, int>> info; // 물고기까지 거리, x좌표, y좌표
+
+void BFS(int _x, int _y)
+{
+	dist = 12345678;
+	queue<pair<int, int>> q;
+	memset(visit, 0, sizeof(visit));
+	info.clear();
+
+	q.push({ _x,_y });
+
+
+	while (!q.empty())
+	{
+		int x = q.front().first;
+		int y = q.front().second;
+		q.pop();
+
+		for (int i = 0; i < 4; i++)
+		{
+			int nx = x + type[i][0];
+			int ny = y + type[i][1];
+
+			if (nx >= 0 && nx < n && ny >= 0 && ny < n && visit[nx][ny] == 0)
+			{
+				if (shark >= board[nx][ny]) // 상어크기가 물고기 크기보다 클 경우에만 잡아먹을 수 있음. 같을 경우는 위치이동만 가능
+				{
+					visit[nx][ny] = visit[x][y] + 1;
+
+					if (board[nx][ny] != 0 && shark > board[nx][ny]) // 상어크기가 물고기 크기보다 크면 잡아먹음
+					{
+						if (dist >= visit[nx][ny])
+						{
+							dist = visit[nx][ny];
+							info.push_back({ dist,nx,ny });
+						}
+					}
+					q.push({ nx,ny });
+				}
+			}
+		}
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n;
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cin >> board[i][j];
+
+			if (board[i][j] == 9)
+			{
+				board[i][j] = 0;
+				sharkx = i;
+				sharky = j;
+			}
+		}
+	}
+
+	while (1)
+	{
+
+		BFS(sharkx, sharky);
+
+		if (info.empty())
+			break;
+
+		else
+		{
+			sort(info.begin(), info.end()); // 1. 거리가 가까운순 , 2. 가장 위 (행) , 3. 가장 왼쪽(열)으로 sorting
+			eat++;
+
+			if (eat == shark)
+			{
+				shark++;
+				eat = 0;
+			}
+
+			ans += get<0>(info[0]);
+			board[get<1>(info[0])][get<2>(info[0])] = 0;
+			sharkx = get<1>(info[0]);
+			sharky = get<2>(info[0]);
+
+		}
+	}
+
+	cout << ans << '\n';
+
+	return 0;
+}
+	
