@@ -1,0 +1,84 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+
+	int t;
+	cin >> t;
+
+	while (t--)
+	{
+		int n;
+		cin >> n;
+
+		int wina = 0, winb = 0;
+		while (n--)
+		{
+			char a, b;
+			cin >> a >> b;
+			
+			if (a == 'R' && b == 'S')
+				wina++;
+
+			else if (a == 'S' && b == 'P')
+				wina++;
+
+			else if (a == 'P' && b == 'R')
+				wina++;
+
+			else if (a == 'S' && b == 'R')
+				winb++;
+
+			else if (a == 'P' && b == 'S')
+				winb++;
+
+			else if (a == 'R' && b == 'P')
+				winb++;
+		}
+		if (wina > winb)
+			cout << "Player 1\n";
+
+		else if (winb > wina)
+			cout << "Player 2\n";
+
+		else
+			cout << "TIE\n";
+	}
+
+	return 0;
+}
+	
