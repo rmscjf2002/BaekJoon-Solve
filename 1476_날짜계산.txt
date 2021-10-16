@@ -1,0 +1,63 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+#define Emax 15
+#define Smax 28
+#define Mmax 19
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int e, s, m;
+	cin >> e >> s >> m;
+
+	int tmpe = 1, tmps = 1, tmpm = 1;
+	int year = 1;
+
+	while (!(tmpe == e && tmps == s && tmpm == m))
+	{
+		year++;
+		tmpe++;
+		tmps++;
+		tmpm++;
+
+		if (tmpe > Emax)
+			tmpe = 1;
+		if (tmps > Smax)
+			tmps = 1;
+		if (tmpm > Mmax)
+			tmpm = 1;
+	}
+
+	cout << year << '\n';
+
+	return 0;
+}
+	
