@@ -1,0 +1,80 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+
+	int t;
+	cin >> t;
+
+	while (t--)
+	{
+		int house[15][15] = { 0 };
+		int k, n; 
+		bool check = false;
+		cin >> k >> n;
+
+		for (int i = 1; i <= n; i++)
+		{
+			house[0][i] = i;
+		} // 0층 i호에 사는 사람은 i명
+
+	
+
+		for (int i = 1; i <= k; i++)
+		{
+			for (int j = 1; j <= n; j++)
+			{
+				for (int tmp = 1; tmp <= j; tmp++)
+					house[i][j] += house[i - 1][tmp];
+				
+				if (i == k && j == n)
+				{
+					check = true;
+					break;
+				}
+			}
+
+			if (check)
+				break;
+		}
+
+
+		cout << house[k][n] << '\n';
+
+
+
+	}
+	return 0;
+}
+	
