@@ -1,0 +1,74 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int n, m;
+vector<int> v;
+vector<int> ans;
+
+
+void DFS(int cnt, int idx)
+{
+	if (cnt == m)
+	{
+		for (int i = 0; i < ans.size(); i++)
+			cout << ans[i] << ' ';
+		cout << '\n';
+		return;
+	}
+
+	for (int i = idx; i < n; i++)
+	{
+		ans.push_back(v[i]);
+		DFS(cnt + 1,i);
+		ans.pop_back();
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	cin >> n >> m;
+
+	v.resize(n);
+	for (int i = 0; i < n; i++)
+		cin >> v[i];
+
+	stable_sort(v.begin(), v.end());
+
+	for (int i = 0; i < n; i++)
+	{
+		ans.push_back(v[i]);
+		DFS(1,i);
+		ans.pop_back();
+	}
+
+	return 0;
+}
