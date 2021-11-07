@@ -1,0 +1,66 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+#define kgchange 2.2046
+#define changekg 0.4536
+#define literchange 0.2642
+#define changeliter 3.7854
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int t;
+	cin >> t;
+	while (t--)
+	{
+		double n;
+		string s;
+		cin >> n >> s;
+
+		cout << fixed;
+		cout.precision(4);
+		if (s == "kg")
+			cout << n * kgchange << ' ' << "lb\n";
+
+		else if (s == "lb")
+			cout << n * changekg << ' ' << "kg\n";
+
+		else if (s == "l")
+			cout << n * literchange << ' ' << "g\n";
+
+		else if (s == "g")
+			cout << n * changeliter << ' ' << "l\n";
+		
+	}
+
+	return 0;
+}
+	
+
