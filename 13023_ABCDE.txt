@@ -1,0 +1,88 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int n, m;
+vector<vector<int>> v;
+bool visited[2001] = { false };
+bool ans = false;
+
+void DFS(int cnt, int idx)
+{
+	visited[idx] = true;
+
+	if (cnt == 4)
+	{
+		ans = true;
+		return;
+	}
+
+	for (int i = 0; i < v[idx].size(); i++)
+	{
+		if (!visited[v[idx][i]])
+		{
+			visited[v[idx][i]] = true;
+			DFS(cnt + 1, v[idx][i]);
+			visited[v[idx][i]] = false;
+		}
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n >> m;
+	v.resize(n);
+	
+	for (int i = 0; i < m; i++)
+	{
+		int a, b;
+		cin >> a >> b;
+		v[a].push_back(b);
+		v[b].push_back(a);
+	}
+
+
+	for (int i = 0; i < n; i++)
+	{
+		memset(visited, false, sizeof(visited));
+		if (!ans)
+			DFS(0, i);
+	}
+
+	if (ans)
+		cout << 1 << '\n';
+	else
+		cout << 0 << '\n';
+
+
+	
+	return 0;
+}
+	
