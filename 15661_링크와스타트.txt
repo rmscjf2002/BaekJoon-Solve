@@ -1,0 +1,113 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int n;
+vector<vector<int>> v;
+int ans = 123456789;
+bool visited[21] = { false };
+vector<int> start;
+vector<int> link;
+
+void DFS(int cnt, int idx)
+{
+	if (cnt >= 1 && cnt <= n-1)
+	{
+		start.clear();
+		link.clear();
+		for (int i = 1; i <= n; i++)
+		{
+			if (!visited[i])
+				start.push_back(i);
+			else
+				link.push_back(i);
+		}
+
+		int startsum = 0;
+		int linksum = 0;
+
+		for (int i = 0; i < start.size(); i++)
+		{
+			for (int j = 0; j < start.size(); j++)
+			{
+				if (i == j)
+					continue;
+
+				startsum += (v[start[i]][start[j]]);
+			}
+		}
+
+
+		for (int i = 0; i < link.size(); i++)
+		{
+			for (int j = 0; j < link.size(); j++)
+			{
+				if (i == j)
+					continue;
+				
+				linksum += (v[link[i]][link[j]]);
+			}
+		}
+
+		ans = min(ans, abs(startsum - linksum));
+	}
+	
+	for (int i = idx; i <= n; i++)
+	{
+		if (!visited[i])
+		{
+			visited[i] = true;
+			DFS(cnt + 1, i);
+			visited[i] = false;
+		}
+	}
+
+
+}
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n;
+	v.resize(n+1);
+
+	for (int i = 1; i <= n; i++)
+		v[i].resize(n + 1);
+
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= n; j++)
+			cin >> v[i][j];
+
+	DFS(0, 1);
+	cout << ans << '\n';
+	
+
+	return 0;
+}
+	
