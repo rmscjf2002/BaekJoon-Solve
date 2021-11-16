@@ -1,0 +1,56 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int a, b, c, d, p;
+
+	cin >> a >> b >> c >> d >> p;
+	// a -> X사의 1리터당 요금
+	// b -> y사의 기본요금 사용량이 C리터 이하면 요금은 b
+	// -> c리터가 넘으면 b+d
+
+	int ans = 123456789;
+
+	ans = min( ans,p*a );
+	if (p <= c)
+		ans = min(ans, b);
+	
+	else
+		ans = min(ans, b + (p-c)*d);
+
+	cout << ans << '\n';
+	
+
+	return 0;
+}
+	
