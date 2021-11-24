@@ -1,0 +1,198 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int n, m, r;
+int  board[101][101] = { 0 };
+int ans[101][101] = { 0 };
+
+void func(int _r)
+{
+	if (_r == 1)
+	{
+		int idx = 0;
+		for (int i = n - 1; i >= 0; i--)
+		{
+			for (int j = 0; j < m; j++)
+				ans[idx][j] = board[i][j];
+			idx++;
+		}
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				board[i][j] = ans[i][j];
+		
+	}
+
+	else if (_r == 2)
+	{
+		int idx = 0;
+		for (int i = m-1; i >= 0; i--)
+		{
+			for (int j = 0; j < n; j++)
+				ans[j][idx] = board[j][i];
+			idx++;
+		}
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				board[i][j] = ans[i][j];
+
+	}
+
+	else if (_r == 3)
+	{
+		int idx = n;
+		swap(n, m);
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < m; j++)
+				ans[i][j] = board[idx - 1 - j][i];
+		}
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				board[i][j] = ans[i][j];
+	
+	}
+
+	else if (_r == 4)
+	{
+		int idx = m;
+		swap(n, m);
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < m; j++)
+				ans[i][j] = board[j][idx-1-i];
+		}
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				board[i][j] = ans[i][j];
+		
+	}
+
+	else if (_r == 5)
+	{
+		int row = n / 2;
+		int col = m / 2;
+
+		for (int i = 0; i < row; i++)
+		{
+			for (int j = 0; j < col; j++)
+				ans[i][j] = board[i + row][j];
+		}
+
+		for (int i = 0; i < row; i++)
+		{
+			for (int j = col; j < m; j++)
+				ans[i][j] = board[i][j - col];
+		}
+
+		for (int i = row; i < n; i++)
+		{
+			for (int j = 0; j < col; j++)
+				ans[i][j] = board[i][j + col];
+		}
+
+		for (int i = row; i < n; i++)
+		{
+			for (int j = col; j < m; j++)
+				ans[i][j] = board[i-row][j];
+		}
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				board[i][j] = ans[i][j];
+	}
+
+	else if (_r == 6)
+	{
+		int row = n / 2;
+		int col = m / 2;
+
+		for (int i = 0; i < row; i++)
+		{
+			for (int j = 0; j < col; j++)
+				ans[i][j] = board[i][j + col];
+		}
+
+		for (int i = 0; i < row; i++)
+		{
+			for (int j = col; j < m; j++)
+				ans[i][j] = board[i+row][j];
+		}
+
+		for (int i = row; i < n; i++)
+		{
+			for (int j = col; j < m; j++)
+				ans[i][j] = board[i][j-col];
+		}
+
+		for (int i = row; i < n; i++)
+		{
+			for (int j = 0; j < col; j++)
+				ans[i][j] = board[i-row][j];
+		}
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				board[i][j] = ans[i][j];
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n >> m >> r;
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+			cin >> board[i][j];
+	}
+
+	while (r--)
+	{
+		memset(ans, 0, sizeof(ans));
+		int f;
+		cin >> f;
+		func(f);
+	}
+
+
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+			cout << ans[i][j] << ' ';
+		cout << '\n';
+	}
+	return 0;
+}
+	
