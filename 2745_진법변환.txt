@@ -1,0 +1,65 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int alphabet[26];
+
+	int cnt = 10;
+	for (int i = 0; i < 26; i++)
+	{
+		alphabet[i] = cnt;
+		cnt++;
+	}
+
+	string n;
+	cin >> n;
+	int b;
+	cin >> b; // b진법 수 n을 10진법으로
+
+	int sum = 0;
+	int idx = 0;
+	for (int i = n.length()-1; i >= 0; i--)
+	{
+		
+		if (n[i] >= '0' && n[i] <= '9')
+			sum += (pow(b, idx) * (n[i] - '0'));
+		
+		else
+			sum += (pow(b, idx) * (alphabet[n[i] - 'A']));
+		idx++;
+	}
+
+	cout << sum << '\n';
+
+	return 0;
+}
+	
