@@ -1,0 +1,81 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	bool alphabet[26];
+
+	int t;
+	cin >> t;
+	cin.ignore();
+
+	while (t--)
+	{
+		memset(alphabet, false, sizeof(alphabet));
+		bool check = true;
+		string s;
+		getline(cin, s);
+		vector<char> v;
+
+		transform(s.begin(), s.end(), s.begin(), ::tolower);
+
+		for (int i = 0; i < s.length(); i++)
+		{
+			if(s[i] >= 'a' && s[i] <= 'z')
+				alphabet[s[i] - 'a'] = true;
+		}
+		for (int i = 0; i < 26; i++)
+		{
+			if (!alphabet[i])
+			{
+				check = false;
+				v.push_back(i + 'a');
+			}
+		}
+
+		if (check)
+			cout << "pangram\n";
+		else
+		{
+			cout << "missing ";
+			for (int i = 0; i < v.size(); i++)
+			{
+				cout << v[i];
+			}
+			cout << '\n';
+		}
+	}
+
+	return 0;
+}
+	
