@@ -1,0 +1,54 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int l, a, b, c, d;
+
+	cin >> l >> a >> b >> c >> d;
+
+	int kor = a / c;
+	if (a % c != 0)
+		kor += 1;
+	int math = b / d;
+	if (b%d != 0)
+		math += 1;
+
+	int maxday = max(math, kor);
+
+	cout << l - maxday << '\n';
+
+
+	return 0;
+}
+	
