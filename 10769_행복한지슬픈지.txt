@@ -1,0 +1,67 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	map<string, int> m;
+
+	m[":-)"] = 0;
+	m[":-("] = 0;
+
+	string s;
+	getline(cin, s);
+
+	for (int i = 0; i < s.length()-2; i++)
+	{
+		if (s[i] == ':')
+		{
+			if (s[i + 2] == ')')
+				m[":-)"]++;
+			else if (s[i + 2] == '(')
+				m[":-("]++;
+			i += 2;
+		}
+	}
+
+	if (m[":-)"] == 0 && m[":-("] == 0)
+		cout << "none\n";
+	else if (m[":-)"] > m[":-("])
+		cout << "happy\n";
+	else if (m[":-)"] < m[":-("])
+		cout << "sad\n";
+	else
+		cout << "unsure\n";
+
+	return 0;
+}
+	
