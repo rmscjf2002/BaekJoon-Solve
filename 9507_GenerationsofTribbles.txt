@@ -1,0 +1,51 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int t;
+	cin >> t;
+
+	long long dp[68] = { 1,1,2,4,0 };
+	while (t--)
+	{
+		int n;
+		cin >> n;
+		for (int i = 4; i <= n; i++)
+			dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3] + dp[i - 4];
+
+		cout << dp[n] << '\n';
+	}
+
+	return 0;
+}
+	
