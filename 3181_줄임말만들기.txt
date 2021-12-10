@@ -1,0 +1,98 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	vector<string> words = 
+	{
+		"i","pa","te","ni","niti","a","ali","nego","no","ili"
+	};
+
+	string s;
+	getline(cin, s);
+
+	string ans = "";
+
+	bool firstword = true;
+	bool check = false;
+
+	string tmp = "";
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (firstword)
+		{
+			if (s[i] == ' ')
+			{
+				ans += tmp[0];
+				tmp = "";
+				firstword = false;
+			}
+
+			else
+				tmp += s[i];
+		}
+
+		else
+		{
+			check = false;
+			if (s[i] != ' ')
+				tmp += s[i];
+			else if (s[i] == ' ')
+			{
+				for (int i = 0; i < 10; i++)
+				{
+					if (words[i] == tmp)
+					{
+						check = true;
+						break;
+					}
+				}
+
+				if (!check)
+					ans += tmp[0];
+				
+				tmp = "";
+			}
+		}
+	}
+
+	ans += tmp[0];
+
+	transform(ans.begin(), ans.end(), ans.begin(), ::toupper);
+
+	cout << ans << '\n';
+
+
+	
+	return 0;
+}
+
