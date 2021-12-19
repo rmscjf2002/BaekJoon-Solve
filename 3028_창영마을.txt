@@ -1,0 +1,71 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	string s;
+	cin >> s;
+
+	int cur = 1;
+
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (s[i] == 'A')
+		{
+			if (cur == 1)
+				cur = 2;
+			else if(cur == 2)
+				cur = 1;
+		}
+		
+		else if (s[i] == 'B')
+		{
+			if (cur == 2)
+				cur = 3;
+			else if(cur == 3)
+				cur = 2;
+		}
+
+		else if (s[i] == 'C')
+		{
+			if (cur == 1)
+				cur = 3;
+			else if(cur == 3)
+				cur = 1;
+		}
+	}
+
+	cout << cur << '\n';
+
+
+	return 0;
+}
+
