@@ -1,0 +1,78 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int alpha[52] = { 0 };
+
+	for (int i = 0; i < 52; i++)
+		alpha[i] = i + 1;
+
+	string s;
+	cin >> s;
+
+	int sum = 0;
+
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (s[i] >= 'a' && s[i] <= 'z')
+			sum += alpha[s[i] - 'a'];
+
+		else if (s[i] >= 'A' && s[i] <= 'Z')
+			sum += alpha[s[i] - 'A' + 26];
+	}
+
+	// 소수 판별 
+
+	int prime[1042] = { 0 };
+
+	prime[1] = 1; // 편의상 1도 소수로 하자.
+
+	for (int i = 2; i <= 1041; i++)
+		prime[i] = i;
+	for (int i = 2; i <= 1041; i++)
+	{
+		if (prime[i] == 0)
+			continue;
+
+		for (int j = i + i; j <= 1041; j += i)
+			prime[j] = 0;
+	}
+
+	if (prime[sum] != 0)
+		cout << "It is a prime word.\n";
+	else
+		cout << "It is not a prime word.\n";
+
+
+	return 0;
+}
+
