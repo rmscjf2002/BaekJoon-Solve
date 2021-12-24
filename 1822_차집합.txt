@@ -1,0 +1,81 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int a, b;
+	cin >> a >> b;
+
+	map<int, int> ma;
+	map<int, int> mb;
+	vector<int> ans;
+	
+	for (int i = 0; i < a; i++)
+	{
+		int n;
+		cin >> n;
+		ma[n]++;
+	}
+
+	for (int i = 0; i < b; i++)
+	{
+		int n;
+		cin >> n;
+		mb[n]++;
+	}
+
+	auto iter = ma.begin();
+
+	for (iter; iter != ma.end(); iter++)
+	{
+		if (mb.find(iter->first) != mb.end())
+			continue;
+		else
+			ans.push_back(iter->first);
+	}
+
+	if (ans.empty())
+		cout << 0 << '\n';
+	else
+	{
+		sort(ans.begin(), ans.end());
+		cout << ans.size() << '\n';
+		for (int i = 0; i < ans.size(); i++)
+			cout << ans[i] << ' ';
+		cout << '\n';
+	}
+
+
+	
+
+	return 0;
+}
+
