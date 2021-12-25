@@ -1,0 +1,148 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	string start, end;
+	cin >> start >> end;
+
+
+	int startn = (start[0]-'0') * 10;
+	startn += start[1] - '0';
+
+	int endn = (end[0] - '0') * 10;
+	endn += end[1] - '0';
+
+	startn *= 3600;
+	endn *= 3600;
+
+	int startm = (start[3] - '0') * 10;
+	startm += start[4] - '0';
+
+	int endm = (end[3] - '0') * 10;
+	endm += end[4] - '0';
+
+	startm *= 60;
+	endm *= 60;
+
+	int starts = (start[6] - '0') * 10;
+	starts += start[7] - '0';
+
+	int ends = (end[6] - '0') * 10;
+	ends += end[7] - '0';
+
+	int startans = startn + startm + starts;
+	int endans = endn + endm + ends;
+
+	int tmp;
+	string ans;
+	if (startans > endans)
+	{
+		tmp = (24 * 3600 - startans + endans);
+		
+		if (tmp / 3600 < 10)
+		{
+			ans += '0';
+			ans += (tmp / 3600 + '0');
+		}
+		else
+			ans += to_string(tmp / 3600);
+
+		tmp %= 3600;
+		ans += ':';
+
+		if (tmp / 60 < 10)
+		{
+			ans += '0';
+			ans += (tmp / 60 + '0');
+		}
+		else
+			ans += to_string(tmp / 60);
+
+		tmp %= 60;
+
+		ans += ':';
+
+		if (tmp < 10)
+		{
+			ans += '0';
+			ans += (tmp + '0');
+		}
+		else
+			ans += to_string(tmp);
+	}
+
+	else
+	{
+		tmp = endans - startans;
+
+		if (tmp / 3600 < 10)
+		{
+			ans += '0';
+			ans += (tmp / 3600 + '0');
+		}
+		else
+			ans += to_string(tmp/3600);
+
+		tmp %= 3600;
+		ans += ':';
+
+		if (tmp / 60 < 10)
+		{
+			ans += '0';
+			ans += (tmp / 60 + '0');
+		}
+		else
+			ans += to_string(tmp/60);
+
+		tmp %= 60;
+
+		ans += ':';
+
+		if (tmp < 10)
+		{
+			ans += '0';
+			ans += (tmp + '0');
+		}
+		else
+			ans += to_string(tmp);
+
+	}
+
+	if (ans == "00:00:00")
+		cout << "24:00:00\n";
+	else
+		cout << ans << '\n';
+	
+
+	return 0;
+}
+
