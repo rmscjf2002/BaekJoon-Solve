@@ -1,0 +1,64 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int t;
+	cin >> t;
+	while (t--)
+	{
+		double n;
+		cin >> n;
+
+		string s;
+		getline(cin, s);
+
+		for (int i = 0; i < s.length(); i++)
+		{
+
+			if (s[i] == '@')
+				n *= 3;
+			else if (s[i] == '%')
+				n += 5;
+			else if (s[i] == '#')
+				n -= 7;
+		}
+		
+			
+
+		cout << fixed;
+		cout.precision(2);
+		cout << n << '\n';
+	}
+
+	return 0;
+}
+
