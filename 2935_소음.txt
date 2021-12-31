@@ -1,0 +1,78 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	// 수는 모두 10의 제곱 형태 
+
+	string a, b;
+	char c;
+
+	cin >> a >> c >> b;
+	
+	string ans = "";
+
+	if (c == '*')
+	{
+		ans += '1';
+
+		for (int i = 0; i < a.length() + b.length() - 2; i++)
+			ans += '0';
+	}
+
+	else if (c == '+')
+	{
+		if (a.length() > b.length())
+		{
+			ans = a;
+			ans[a.length() - b.length()] = '1';
+		}
+
+		else if (a.length() < b.length())
+		{
+			ans = b;
+			ans[b.length() - a.length()] = '1';
+		}
+
+		else if(a.length() == b.length())
+		{
+			ans += '2';
+			for (int i = 0; i < a.length() - 1; i++)
+				ans += '0';
+		}
+
+	}
+
+	cout << ans << '\n';
+
+	return 0;
+}
+
