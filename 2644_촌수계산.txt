@@ -1,0 +1,81 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int visited[101] = { 0 };
+vector<int> v[101];
+
+int bfs(int _start, int _end)
+{
+	queue<int> q;
+	q.push(_start);
+
+	while (!q.empty())
+	{
+		int x = q.front();
+
+		if (x == _end)
+			return visited[x];
+		
+		q.pop();
+
+		for (unsigned int i = 0; i < v[x].size(); i++)
+		{
+			int y = v[x][i];
+
+			if (!visited[y])
+			{
+				visited[y] = visited[x] + 1;
+				q.push(y);
+			}
+		}
+	}
+	return -1;
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int n, start, end, m;
+
+	cin >> n >> start >> end >> m;
+
+	for (int i = 0; i < m; i++)
+	{
+		int x, y;
+		cin >> x >> y;
+		v[x].push_back(y);
+		v[y].push_back(x);
+	}
+
+	cout << bfs(start, end) << '\n';
+
+
+	return 0;
+}
+
