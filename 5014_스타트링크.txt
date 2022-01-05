@@ -1,0 +1,90 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+vector<int> type;
+
+int ans[1000001] = { 0 };
+int F, S, G, U, D;
+
+int BFS(int start)
+{
+	queue<int> q;
+	q.push(start);
+	
+
+	while (!q.empty())
+	{
+		int x = q.front();
+		q.pop();
+
+	
+		if (x == G)
+			return ans[x];
+		
+		// U와D가 0이면 버튼누르는횟수는 증가하지만 변화는없기에 
+		for (int i = 0; i < 2; i++)
+		{
+			if (type[i] != 0)
+			{
+				int nx = x + type[i];
+				if (nx > 0 && nx <= F)
+				{
+					if (!ans[nx])
+					{
+						q.push(nx);
+						ans[nx] = ans[x] + 1;
+					}
+				}
+			}
+		}
+	}
+	return -1;
+	
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	cin >> F >> S >> G >> U >> D;
+
+
+	
+	type.push_back(U); // 위층으로
+	type.push_back(D*-1); // 아래층으로
+
+	int answer = BFS(S);
+
+	if (answer == -1)
+		cout << "use the stairs\n";
+	else
+		cout << answer << '\n';
+		
+	return 0;
+}
+
