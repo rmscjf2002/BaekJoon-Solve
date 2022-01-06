@@ -1,0 +1,98 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int n;
+bool visited[101][101] = { false };
+int board[101][101] = { 0 };
+int Min = 101;
+int Max = 0;
+int answer = 0;
+
+int type[4][2] =
+{
+	{1,0},
+	{-1,0},
+	{0,1},
+	{0,-1}
+};
+
+void DFS(int x, int y, int rain)
+{
+	visited[x][y] = true;
+
+	for (int i = 0; i < 4; i++)
+	{
+		int nx = x + type[i][0];
+		int ny = y + type[i][1];
+
+		if (nx >= 0 && nx < n && ny >= 0 && ny < n && rain <= board[nx][ny] && !visited[nx][ny])
+			DFS(nx, ny, rain);
+		
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	cin >> n;
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cin >> board[i][j];
+			Min = min(Min, board[i][j]);
+			Max = max(Max, board[i][j]);
+		}
+	}
+
+	for (int i = Min; i <= Max; i++)
+	{
+		memset(visited, false, sizeof(visited));
+		int ans = 0;
+
+		for (int j = 0; j < n; j++)
+		{
+			for (int k = 0; k < n; k++)
+			{
+				if (board[j][k] >= i && !visited[j][k])
+				{
+					DFS(j, k,i);
+					ans++;
+				}
+			}
+		}
+		answer = max(ans, answer);
+	}
+
+	cout << answer << '\n';
+
+	return 0;
+}
+
