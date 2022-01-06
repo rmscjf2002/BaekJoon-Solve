@@ -29,7 +29,7 @@ bool visited[101][101] = { false };
 int board[101][101] = { 0 };
 int Min = 101;
 int Max = 0;
-int answer = 0;
+int answer = 1;
 
 int type[4][2] =
 {
@@ -41,16 +41,17 @@ int type[4][2] =
 
 void DFS(int x, int y, int rain)
 {
-	visited[x][y] = true;
 
 	for (int i = 0; i < 4; i++)
 	{
 		int nx = x + type[i][0];
 		int ny = y + type[i][1];
 
-		if (nx >= 0 && nx < n && ny >= 0 && ny < n && rain <= board[nx][ny] && !visited[nx][ny])
+		if (nx >= 0 && nx < n && ny >= 0 && ny < n && rain < board[nx][ny] && !visited[nx][ny])
+		{
+			visited[nx][ny] = true;
 			DFS(nx, ny, rain);
-		
+		}
 	}
 }
 
@@ -81,8 +82,9 @@ int main()
 		{
 			for (int k = 0; k < n; k++)
 			{
-				if (board[j][k] >= i && !visited[j][k])
+				if (board[j][k] > i && !visited[j][k])
 				{
+					visited[j][k] = true;
 					DFS(j, k,i);
 					ans++;
 				}
