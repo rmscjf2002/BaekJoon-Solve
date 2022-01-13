@@ -1,0 +1,67 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+
+	int mvsum = 0;
+	int yvsum = 0;
+
+	for (int i = 0; i < n; i++)
+	{
+		int a;
+		cin >> a;
+		
+		int yvval;
+		yvval = a / 30 + 1;
+		yvsum += yvval * 10;
+
+		int mvval;
+		mvval = a / 60 + 1;
+		mvsum += mvval * 15;
+	}
+
+	if (mvsum < yvsum)
+		cout << "M " << mvsum << '\n';
+	else if (mvsum > yvsum)
+		cout << "Y " << yvsum << '\n';
+	else
+		cout << "Y M " << yvsum << '\n';
+
+	
+	
+	return 0;
+}
+
