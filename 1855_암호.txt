@@ -1,0 +1,91 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int col;
+	string s;
+	cin >> col >> s;
+
+	char board[201][201];
+
+	int len = s.length();
+	
+	int row = len / col;
+
+	int cnt = 0;
+
+	int idx = 0;
+
+	bool reverse = false;
+	
+	while (cnt != row)
+	{
+
+		if (!reverse)
+		{
+			for (int i = 0; i < col; i++)
+			{
+				board[cnt][i] = s[idx];
+				idx++;
+				reverse = true;
+			}
+			cnt++;
+		}
+
+		else
+		{
+			for (int i = col - 1; i >= 0; i--)
+			{
+				board[cnt][i] = s[idx];
+				idx++;
+				reverse = false;
+			}
+			cnt++;
+		}
+
+	}
+
+
+	for (int i = 0; i < col; i++)
+	{
+		for (int j = 0; j < row; j++)
+		{
+			cout << board[j][i];
+		}
+	}
+
+	cout << '\n';
+
+	return 0;
+}
+
