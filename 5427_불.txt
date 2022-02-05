@@ -1,0 +1,157 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int h, w;
+char board[1001][1001];
+int dist1[1001][1001]; // 불
+int dist2[1001][1001]; // 상근이
+
+int type[4][2] = 
+{
+	{1,0},
+	{-1,0},
+	{0,1},
+	{0,-1}
+};
+
+
+queue<pair<int, int>> q1; // 불의 좌표
+queue<pair<int, int>> q2; // 상근이 좌표
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int t;
+	cin >> t;
+
+
+	while (t--)
+	{
+
+		bool check = false;
+		int ans;
+		cin >> w >> h;
+
+		for (int i = 0; i < h; i++)
+		{
+			fill(dist1[i], dist1[i] + w, -1);
+			fill(dist2[i], dist2[i] + w, -1);
+		}
+
+		for (int i = 0; i < h; i++)
+		{
+			string s;
+			cin >> s;
+			for (int j = 0; j < w; j++)
+				board[i][j] = s[j];
+		}
+
+		for (int i = 0; i < h; i++)
+		{
+			for (int j = 0; j < w; j++)
+			{
+				if (board[i][j] == '*')
+				{
+					dist1[i][j] = 0;
+					q1.push({ i,j });
+				}
+
+				if (board[i][j] == '@')
+				{
+					dist2[i][j] = 0;
+					q2.push({ i,j });
+				}
+			}
+		}
+
+
+		// 불의 전파시간 계산
+		while (!q1.empty())
+		{
+			int x = q1.front().first;
+			int y = q1.front().second;
+			q1.pop();
+
+			for (int i = 0; i < 4; i++)
+			{
+				int nx = x + type[i][0];
+				int ny = y + type[i][1];
+
+				if (nx < 0 || nx >= h || ny < 0 || ny >= w)
+					continue;
+
+				if (dist1[nx][ny] >= 0 || board[nx][ny] == '#')
+					continue;
+
+				q1.push({ nx,ny });
+				dist1[nx][ny] = dist1[x][y] + 1;
+			}
+		}
+
+		// 상근이 이동시간 계산
+		while (!q2.empty())
+		{
+			int x = q2.front().first;
+			int y = q2.front().second;
+			q2.pop();
+
+			for (int i = 0; i < 4; i++)
+			{
+				int nx = x + type[i][0];
+				int ny = y + type[i][1];
+
+				if (nx < 0 || nx >= h || ny < 0 || ny >= w)
+				{
+					ans =  dist2[x][y] + 1;
+					check = true;
+					break;
+				}
+
+				if (check)
+					break;
+
+				if (dist2[nx][ny] >= 0 || board[nx][ny] == '#')
+					continue;
+
+				if (dist1[nx][ny] != -1 && dist1[nx][ny] <= dist2[x][y] + 1)
+					continue;
+
+				q2.push({ nx,ny });
+				dist2[nx][ny] = dist2[x][y] + 1;
+			}
+		}
+
+		if (check)
+			cout << ans << '\n';
+		else
+			cout << "IMPOSSIBLE\n";
+	}
+	return 0;
+}
+
