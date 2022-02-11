@@ -1,0 +1,156 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int board[101][101];
+bool visited[101][101];
+int dist[101][101];
+
+int type[4][2] = 
+{
+	{0,1},
+	{0,-1},
+	{1,0},
+	{-1,0}
+};
+
+
+int n, cnt = 0;
+// cnt = 섬의 번호 
+queue<pair<int, int>> q;
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n;
+
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			cin >> board[i][j];
+
+
+	// 섬에 번호 붙이기 작업.
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (board[i][j] == 0 || visited[i][j])
+				continue;
+
+			cnt++;
+			q.push({ i,j });
+			visited[i][j] = true;
+			board[i][j] = cnt;
+
+			while (!q.empty())
+			{
+				int x = q.front().first;
+				int y = q.front().second;
+				q.pop();
+
+				for (int dir = 0; dir < 4; dir++)
+				{
+					int nx = x + type[dir][0];
+					int ny = y + type[dir][1];
+
+					if (nx < 0 || nx >= n || ny < 0 || ny >= n)
+						continue;
+
+					if (board[nx][ny] == 0 || visited[nx][ny])
+						continue;
+
+					board[nx][ny] = cnt;
+					visited[nx][ny] = true;
+					q.push({ nx,ny });
+				}
+			}
+
+		}
+	}
+	//////////////
+
+	// 다리만드는 작업
+
+	for (int i = 0; i < n; i++)
+		fill(dist[i], dist[i] + n, -1);
+
+	int ans = 999999;
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (board[i][j] != 0)
+			{
+				dist[i][j] = 0;
+				q.push({ i,j });
+
+				bool isEscape = false;
+
+				while (!q.empty() && !isEscape)
+				{
+					int x = q.front().first;
+					int y = q.front().second;
+					q.pop();
+
+					for (int dir = 0; dir < 4; dir++)
+					{
+						int nx = x + type[dir][0];
+						int ny = y + type[dir][1];
+
+						if (nx < 0 || nx >= n || ny < 0 || ny >= n)
+							continue;
+
+						if (board[i][j] == board[nx][ny] || dist[nx][ny] >= 0)
+							continue;
+
+						if (board[nx][ny] != 0 && board[nx][ny] != board[i][j])
+						{
+							ans = min(ans, dist[x][y]);
+							while (!q.empty()) q.pop();
+							isEscape = true;
+							break;
+						}
+
+						q.push({ nx,ny });
+						dist[nx][ny] = dist[x][y] + 1;
+					}
+				}
+
+				for (int k = 0; k < n; k++)
+					fill(dist[k], dist[k] + n, -1);
+			}
+		}
+	}
+
+	cout << ans << '\n';
+	
+	return 0;
+}
+
