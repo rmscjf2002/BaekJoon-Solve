@@ -1,0 +1,129 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int board[201][201];
+int dist[31][201][201];
+
+int typehorse[8][2] =
+{
+	{-2,-1},
+	{-1,-2},
+	{1,-2},
+	{2,-1},
+	{-2,1},
+	{-1,2},
+	{1,2},
+	{2,1}
+};
+
+int type[4][2] =
+{
+	{0,1},
+	{0,-1},
+	{1,0},
+	{-1,0}
+};
+
+queue<tuple<int, int, int>> q;
+int k, w, h;
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> k >> w >> h;
+
+	for (int i = 0; i < h; i++)
+		for (int j = 0; j < w; j++)
+			cin >> board[i][j];
+	
+	q.push({ 0,0,0 });
+	dist[0][0][0] = 1;
+
+	while (!q.empty())
+	{
+		int _k, x, y;
+		tie(_k, x, y) = q.front();
+		q.pop();
+
+		if (_k < k)
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				int nx = x + typehorse[i][0];
+				int ny = y + typehorse[i][1];
+
+				if (nx < 0 || nx >= h || ny < 0 || ny >= w)
+					continue;
+
+				if (board[nx][ny])
+					continue;
+
+				if (dist[_k + 1][nx][ny])
+					continue;
+
+				q.push({ _k + 1,nx,ny });
+				dist[_k + 1][nx][ny] = dist[_k][x][y] + 1;
+			}
+		}
+
+		for (int i = 0; i < 4; i++)
+		{
+			int nx = x + type[i][0];
+			int ny = y + type[i][1];
+
+			if (nx < 0 || nx >= h || ny < 0 || ny >= w)
+				continue;
+
+			if (board[nx][ny])
+				continue;
+
+			if (dist[_k][nx][ny])
+				continue;
+
+			q.push({ _k,nx,ny });
+			dist[_k][nx][ny] = dist[_k][x][y] + 1;
+		}
+	}
+
+	int ans = 0x7f7f7f7f;
+
+	for (int i = 0; i <= k; i++)
+	{
+		if(dist[i][h-1][w-1])
+			ans = min(ans, dist[i][h - 1][w - 1]);
+	}
+	if (ans != 0x7f7f7f7f)
+		cout << ans - 1 << '\n';
+	else
+		cout << -1 << '\n';
+	
+	return 0;
+}
+
