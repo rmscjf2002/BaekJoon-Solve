@@ -1,0 +1,79 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int t;
+	cin >> t;
+
+	int alpha1[26];
+	int alpha2[26];
+
+	while (t--)
+	{
+		fill(alpha1, alpha1 + 26, 0);
+		fill(alpha2, alpha2 + 26, 0);
+		string s1,s2;
+		cin >> s1 >> s2;
+
+		for (auto c : s1)
+			alpha1[c - 'a']++;
+		for (auto c : s2)
+			alpha2[c - 'a']++;
+
+		string tmp1 = "", tmp2 = "";
+
+		for (int i = 0; i < 26; i++)
+		{
+			while (alpha1[i] != 0)
+			{
+				tmp1 += i + 'a';
+				alpha1[i]--;
+			}
+			while (alpha2[i] != 0)
+			{
+				tmp2 += i + 'a';
+				alpha2[i]--;
+			}
+		}
+
+		if (tmp1 == tmp2)
+			cout << s1 << " & " << s2 << " are anagrams.\n";
+
+		else
+			cout << s1 << " & " << s2 << " are NOT anagrams.\n";
+	}
+	
+
+	return 0;
+}
+
