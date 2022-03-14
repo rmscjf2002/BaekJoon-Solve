@@ -1,0 +1,114 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+string answer1 = "\"재귀함수가 뭔가요?\"\n";
+string answer2 = "\"잘 들어보게. 옛날옛날 한 산 꼭대기에 이세상 모든 지식을 통달한 선인이 있었어.\n";
+string answer3 = "마을 사람들은 모두 그 선인에게 수많은 질문을 했고, 모두 지혜롭게 대답해 주었지.\n";
+string answer4 = "그의 답은 대부분 옳았다고 하네. 그런데 어느 날, 그 선인에게 한 선비가 찾아와서 물었어.\"\n";
+string answer5 = "\"재귀함수는 자기 자신을 호출하는 함수라네\"\n";
+string answer6 = "라고 답변하였지.\n";
+
+
+
+void func(int n, int u)
+{
+	string tmp = "";
+	string _u = "";
+
+	if (n == 0)
+	{
+
+		for (int i = 0; i < u; i++)
+			_u += '_';
+
+		for (int i = 0; i < 2; i++)
+		{
+			tmp += _u;
+
+			if (i == 0)
+				tmp += answer1;
+
+			else if (i == 1)
+				tmp += answer5;
+		}
+		tmp += _u;
+		tmp += answer6;
+		cout << tmp;
+		u -= 4;
+		_u = "";
+		for (int i = 0; i < u; i++)
+			_u += '_';
+		while (u >= 0)
+		{
+			_u = "";
+			for (int i = 0; i < u; i++)
+				_u += '_';
+			cout << _u << answer6;
+			u -= 4;
+		}
+		return ;
+	}
+
+
+	for (int i = 0; i < u; i++)
+		_u += '_';
+
+	for (int i = 0; i < 4; i++)
+	{
+		tmp += _u;
+		
+		if (i == 0)
+			tmp += answer1;
+		else if (i == 1)
+			tmp += answer2;
+		else if (i == 2)
+			tmp += answer3;
+		else
+			tmp += answer4;
+	}
+
+	cout << tmp;
+
+	func(n - 1, u + 4);
+
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+
+	cout << "어느 한 컴퓨터공학과 학생이 유명한 교수님을 찾아가 물었다.\n";
+	func(n, 0);
+	
+	return 0;
+}
+
