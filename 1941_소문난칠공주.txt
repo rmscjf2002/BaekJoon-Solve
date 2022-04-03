@@ -1,0 +1,103 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+string board[5];
+bool combi[25];
+int type[4][2] = 
+{
+	{1,0},
+	{-1,0},
+	{0,-1},
+	{0,1}
+};
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false); 
+	cin.tie(0);
+	cout.tie(0);
+
+	int ans = 0;
+
+	for (int i = 0; i < 5; i++)
+		cin >> board[i];
+
+	fill(combi + 7, combi + 25, true);
+
+	do
+	{
+		bool visited[5][5] = {};
+		bool ispossible[5][5] = {};
+		int adj = 0, dasom = 0;
+
+		queue<pair<int, int>> q;
+		for (int i = 0; i < 25; i++)
+		{
+			if (!combi[i])
+			{
+				int x = i / 5, y = i % 5;
+				ispossible[x][y] = true;
+
+				if (q.empty())
+				{
+					q.push({ x,y });
+					visited[x][y] = true;
+				}
+			}
+		}
+
+		while (!q.empty())
+		{
+			int x, y;
+			tie(x, y) = q.front();
+			adj++;
+			if (board[x][y] == 'S')
+				dasom++;
+			q.pop();
+
+			for (int i = 0; i < 4; i++)
+			{
+				int nx = x + type[i][0];
+				int ny = y + type[i][1];
+
+				if (nx < 0 || nx >= 5 || ny < 0 || ny >= 5 || visited[nx][ny] || !ispossible[nx][ny])
+					continue;
+
+				visited[nx][ny] = true;
+				q.push({ nx,ny });
+			}
+		}
+		if (dasom >= 4 && adj >= 7)
+			ans++;
+	} while (next_permutation(combi, combi + 25));
+	
+	cout << ans << '\n';
+
+	return 0;
+}
+
