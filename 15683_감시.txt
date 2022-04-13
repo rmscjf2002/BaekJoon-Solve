@@ -1,0 +1,152 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int n, m;
+int board1[10][10]; // 입력 값
+int board2[10][10]; // 변화하는 값
+vector<pair<int, int>> cctv;
+
+int type[4][2] = 
+{
+	{0,1},
+	{1,0},
+	{0,-1},
+	{-1,0}
+};
+
+bool OOB(int x, int y)
+{
+	return (x >= n || x < 0 || y >= m || y < 0);
+}
+
+void func(int x, int y, int dir)
+{
+	dir %= 4;
+
+	while (1)
+	{
+		x += type[dir][0];
+		y += type[dir][1];
+
+		if (OOB(x, y) || board2[x][y] == 6)
+			return;
+
+		if (board2[x][y] != 0)
+			continue;
+
+		board2[x][y] = 7;
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int ans = 0;
+
+	cin >> n >> m;
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			cin >> board1[i][j];
+
+			if (board1[i][j] != 0 && board1[i][j] != 6)
+				cctv.push_back({ i,j });
+
+			if (board1[i][j] == 0)
+				ans++;
+		}
+	}
+
+	for (int tmp = 0; tmp < 1 << (2 * cctv.size()); tmp++)
+	{
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				board2[i][j] = board1[i][j];
+
+		int _tmp = tmp;
+
+		for (int i = 0; i < cctv.size(); i++)
+		{
+			int dir = _tmp % 4;
+			_tmp /= 4;
+
+			int x, y;
+			tie(x, y) = cctv[i];
+
+			if (board1[x][y] == 1)
+			{
+				func(x, y, dir);
+			}
+
+			else if (board1[x][y] == 2)
+			{
+				func(x, y, dir);
+				func(x, y, dir + 2);
+			}
+
+			else if (board1[x][y] == 3)
+			{
+				func(x, y, dir);
+				func(x, y, dir + 1);
+			}
+
+			else if (board1[x][y] == 4)
+			{
+				func(x, y, dir);
+				func(x, y, dir+1);
+				func(x, y, dir+2);
+			}
+
+			else
+			{
+				func(x, y, dir);
+				func(x, y, dir + 1);
+				func(x, y, dir + 2);
+				func(x, y, dir + 3);
+			}
+
+		}
+
+		int answer = 0;
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				if (board2[i][j] == 0)
+					answer++;
+
+		ans = min(ans, answer);
+
+	}
+
+	cout << ans << '\n';
+	return 0;
+}
+
