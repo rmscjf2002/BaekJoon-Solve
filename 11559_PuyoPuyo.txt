@@ -1,0 +1,135 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+string board[12];
+bool isPuyo; // 터트릴 수 있는지
+int ans;
+
+int type[4][2] = {
+	{0,1},
+	{0,-1},
+	{-1,0},
+	{1,0}
+};
+
+bool visited[12][6];
+
+void visclear()
+{
+	for (int i = 0; i < 12; i++)
+		for (int j = 0; j < 6; j++)
+			visited[i][j] = false;
+}
+
+void BFS(int x, int y, char t)
+{
+	vector<pair<int, int>> pos;
+	queue<pair<int, int>> q;
+	q.push({ x,y });
+	visited[x][y] = true;
+
+	while (!q.empty())
+	{
+		tie(x, y) = q.front();
+		pos.push_back({ x,y });
+		q.pop();
+		for (int i = 0; i < 4; i++)
+		{
+			int nx = x + type[i][0];
+			int ny = y + type[i][1];
+
+			if (nx < 0 || nx >= 12 || ny < 0 || ny >= 6 || visited[nx][ny])
+				continue;
+
+			if (t != board[nx][ny] || board[nx][ny] == '.')
+				continue;
+
+			q.push({ nx,ny });
+			visited[nx][ny] = true;
+			
+		}
+	}
+
+	if (pos.size() >= 4)
+	{
+		isPuyo = true;
+		for (int i = 0; i < pos.size(); i++)
+			board[pos[i].first][pos[i].second] = '.';
+		
+
+	}
+
+
+}
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	for (int i = 0; i < 12; i++)
+		cin >> board[i];
+
+	do
+	{
+		visclear();
+		isPuyo = false;
+
+		// 뿌요를 밑으로 내리는 작업
+
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 10; j >= 0; j--)
+			{
+				int tmp = j;
+
+				while (tmp < 11 && board[tmp + 1][i] == '.')
+				{
+					swap(board[tmp + 1][i], board[tmp][i]);
+					tmp++;
+				}
+			}
+		}
+
+
+		for (int i = 0; i < 12; i++)
+			for (int j = 0; j < 6; j++)
+				if (!visited[i][j] && board[i][j] != '.')
+					BFS(i, j, board[i][j]);
+				
+		if (isPuyo)
+			ans++;
+
+	} while (isPuyo);
+
+	cout << ans << '\n';
+
+	return 0;
+}
+
