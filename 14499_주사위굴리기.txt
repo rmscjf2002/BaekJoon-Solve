@@ -1,0 +1,133 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int n, m, x, y, k;
+int board[21][21];
+int dice[6] ;
+int order[1001];
+
+bool isOk(int nx, int ny)
+{
+	if (nx < 0 || nx >= n || ny < 0 || ny >= m)
+		return false;
+	return true;
+}
+
+void roll(int order)
+{
+	int tmp[6];
+	for (int i = 0; i < 6; i++)
+		tmp[i] = dice[i];
+
+	if (order == 1)
+	{
+		y++;
+		dice[0] = tmp[2];
+		dice[1] = tmp[0];
+		dice[2] = tmp[5];
+		dice[5] = tmp[1];
+	}
+
+	else if (order == 2)
+	{
+		y--;
+		dice[0] = tmp[1];
+		dice[1] = tmp[5];
+		dice[2] = tmp[0];
+		dice[5] = tmp[2];
+	}
+
+	else if (order == 3)
+	{
+		x--;
+		dice[0] = tmp[3];
+		dice[3] = tmp[5];
+		dice[4] = tmp[0];
+		dice[5] = tmp[4];
+	}
+
+	else
+	{
+		x++;
+		dice[0] = tmp[4];
+		dice[3] = tmp[0];
+		dice[4] = tmp[5];
+		dice[5] = tmp[3];
+	}
+}
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	cin >> n >> m >> x >> y >> k;
+
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < m; j++)
+			cin >> board[i][j];
+
+	for (int i = 0; i < k; i++)
+		cin >> order[i];
+
+
+	for (int i = 0; i < k; i++)
+	{
+		int nx = x, ny = y;
+
+		if (order[i] == 1)
+			ny++;
+		else if (order[i] == 2)
+			ny--;
+		else if (order[i] == 3)
+			nx--;
+		else
+			nx++;
+
+		if (isOk(nx, ny))
+		{
+			roll(order[i]);
+			if (board[x][y] == 0)
+				board[x][y] = dice[5];
+			else
+			{
+				dice[5] = board[x][y];
+				board[x][y] = 0;
+			}
+
+			cout << dice[0] << '\n';
+		}
+	}
+	
+
+	return 0;
+}
