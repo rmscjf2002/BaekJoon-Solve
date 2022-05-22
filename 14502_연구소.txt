@@ -1,0 +1,131 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int n, m, ans;
+int board[9][9];
+int type[4][2] = 
+{
+	{0,1},
+	{0,-1},
+	{1,0},
+	{-1,0}
+};
+
+int freessize;
+vector<pair<int, int>> frees; // 빈칸
+queue<pair<int, int>> virus; // 바이러스
+
+int BFS()
+{
+	queue<pair<int, int>> q;
+	bool visited[8][8] = {};
+	int ret = 0;
+
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < m; j++)
+			if (board[i][j] == 2)
+				q.push({ i,j });
+
+	while (!q.empty())
+	{
+		int x, y;
+		tie(x, y) = q.front();
+		ret++;
+		q.pop();
+
+		for (int i = 0; i < 4; i++)
+		{
+			int nx = x + type[i][0];
+			int ny = y + type[i][1];
+
+			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
+				continue;
+
+			if (board[nx][ny] != 0 || visited[nx][ny])
+				continue;
+
+			visited[nx][ny] = 1;
+			q.push({ nx,ny });
+
+		}
+	}
+
+	return ret;
+}
+
+void DFS(int k, int idx)
+{
+	if (k == 3)
+	{
+		int tmp = BFS();
+
+		ans = max(freessize - 3 - tmp + (int)virus.size(), ans);
+		return;
+	}
+
+	for (int i = idx; i < frees.size(); i++)
+	{
+		board[frees[i].first][frees[i].second] = 1;
+		DFS(k + 1, i + 1);
+		board[frees[i].first][frees[i].second] = 0;
+	}
+}
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	cin >> n >> m;
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			cin >> board[i][j];
+			if (board[i][j] == 0)
+			{
+				freessize++;
+				frees.push_back({ i,j });
+			}
+			else if (board[i][j] == 2)
+				virus.push({ i,j });
+		}
+	}
+
+	DFS(0, 0);
+
+	cout << ans << '\n';
+
+
+
+	return 0;
+}
