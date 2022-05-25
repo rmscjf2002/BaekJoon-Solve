@@ -1,0 +1,71 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int n, ans;
+int a[302][302];
+int b[302][302];
+int c[302][302];
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	cin >> n;
+
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			cin >> a[i][j];
+
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			cin >> b[i][j];
+
+
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			for (int k = 0; k < n; k++)
+				c[i][j] |= (a[i][k] & b[k][j]);
+			
+		
+
+
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			if (c[i][j])
+				ans++;
+
+
+	cout << ans << '\n';
+
+
+	return 0;
+}
