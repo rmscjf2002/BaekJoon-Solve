@@ -1,0 +1,134 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int r, c, k;
+char board[22][12];
+
+
+void rot(int cnt)
+{
+	char tmp[12][12];
+
+	while (cnt--)
+	{
+		for (int i = 0; i < r; i++)
+			for (int j = 0; j < c; j++)
+				tmp[i][j] = board[i][j];
+
+		for (int j = 0; j < r; j++)
+			for (int i = 0; i < c; i++)
+				board[i][j] = tmp[r - 1 - j][i];
+
+		swap(r, c);
+	}
+}
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> r >> c;
+
+	for (int i = 0; i < r; i++)
+	{
+		string s;
+		cin >> s;
+		for (int j = 0; j < c; j++)
+			board[i][j] = s[j];
+	}
+			
+	cin >> k;
+
+
+	rot(k/90);
+
+	k %= 90;
+
+	
+	if (k == 45)
+	{
+		for (int i = 0; i < r + c; i++)
+		{
+			int tmp = 0;
+			if (i < r)
+			{
+				tmp = r - 1 - i;
+				while (tmp--)
+					cout << ' ';
+			}
+			else
+			{
+				tmp = i - r + 1;
+				while (tmp--)
+					cout << ' ';
+			}
+
+			for (int j = i; j >= 0; j--)
+			{
+				int x = j;
+				int y = i - j;
+
+				if (x < 0 || x >= r || y < 0 || y >= c)
+					continue;
+				cout << board[x][y];
+
+				if (x - 1 < 0 || x - 1 >= r || y + 1 < 0 || y + 1 >= c)
+					cout << '\n';
+				else
+					cout << ' ';
+			}
+		}
+	}
+
+	else
+	{
+		for (int i = 0; i < r; i++)
+		{
+			for (int j = 0; j < c; j++)
+				cout << board[i][j];
+			cout << '\n';
+
+		}
+	}
+	
+
+	
+	
+	
+
+
+
+	return 0;
+}
