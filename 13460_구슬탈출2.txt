@@ -1,0 +1,153 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int n, m;
+string board[11];
+int dist[11][11][11][11];
+pair<int, int> red, blue;
+int type[4][2] = 
+{
+	{0,1}, // 오른쪽으로 기울이기
+	{1,0}, // 아래로 기울이기
+	{0,-1}, // 왼쪽으로 기울이기
+	{-1,0} // 위로 기울이기
+};
+
+int BFS()
+{
+	queue<tuple<int, int, int, int>> q;
+	q.push({ red.first,red.second,blue.first,blue.second });
+	dist[red.first][red.second][blue.first][blue.second] = 0;
+
+	while (!q.empty())
+	{
+		int rx, ry, bx, by;
+		tie(rx, ry, bx, by) = q.front();
+		q.pop();
+
+		int cnt = dist[rx][ry][bx][by];
+
+		if (cnt >= 10)
+			return -1;
+
+		for (int i = 0; i < 4; i++)
+		{
+			int nrx = rx;
+			int nbx = bx;
+			int nry = ry;
+			int nby = by;
+
+			// #1. 파란구슬 이동
+
+			while (board[nbx+type[i][0]][nby+type[i][1]] == '.')
+			{
+				nbx += type[i][0];
+				nby += type[i][1];
+			}
+
+			if (board[nbx+type[i][0]][nby+type[i][1]] == 'O')
+				continue;
+
+
+			// #2. 빨간구슬 이동
+
+			while (board[nrx+type[i][0]][nry+type[i][1]] == '.')
+			{
+				nrx += type[i][0];
+				nry += type[i][1];
+			}
+
+			if (board[nrx+type[i][0]][nry+type[i][1]] == 'O')
+				return cnt + 1;
+
+
+			// 겹칠경우
+			if ((nrx == nbx) && (nry == nby))
+			{
+				if (i == 0)
+					by > ry ? nry-- : nby--;
+
+				else if (i == 1)
+					bx > rx ? nrx-- : nbx--;
+
+				else if (i == 2)
+					by > ry ? nby++ : nry++;
+
+				else if (i == 3)
+					bx > rx ? nbx++ : nrx++;
+			}
+
+			if (dist[nrx][nry][nbx][nby] != -1)
+				continue;
+
+			q.push({ nrx,nry,nbx,nby });
+			dist[nrx][nry][nbx][nby] = cnt + 1;
+		}
+
+	}
+	return -1;
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n >> m;
+	for (int i = 0; i < n; i++)
+		cin >> board[i];
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			if (board[i][j] == 'B')
+			{
+				blue = { i,j };
+				board[i][j] = '.';
+			}
+			if (board[i][j] == 'R')
+			{
+				red = { i,j };
+				board[i][j] = '.';
+			}
+		}
+	}
+
+	for (int i = 0; i < 11; i++)
+		for (int j = 0; j < 11; j++)
+			for (int k = 0; k < 11; k++)
+				fill(dist[i][j][k], dist[i][j][k] + 11, -1);
+
+
+	cout << BFS() << '\n';
+
+	return 0;
+}
