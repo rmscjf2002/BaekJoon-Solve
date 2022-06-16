@@ -1,0 +1,105 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int ans = 0x7f7f7f7f;
+int n, m, h;
+bool ladder[32][12];
+
+bool check()
+{
+	for (int i = 1; i < n; i++)
+	{
+		int cur = i;
+
+		for (int j = 1; j <= h ; j++)
+		{
+			if (ladder[j][cur])
+				cur++;
+
+			else if (ladder[j][cur - 1])
+				cur--;
+		}
+
+		if (cur != i)
+			return false;
+	}
+	return true;
+}
+
+void DFS(int k, int idx)
+{
+	if (k >= 4)
+		return;
+
+	if (check())
+		ans = min(ans, k);
+
+
+	for (int i = idx; i <= h; i++)
+	{
+		for (int j = 1; j < n; j++)
+		{
+			if (ladder[i][j] || ladder[i][j - 1] || ladder[i][j + 1])
+				continue;
+
+			ladder[i][j] = true;
+			DFS(k + 1, i);
+			ladder[i][j] = false;
+
+		}
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n >> m >> h;
+
+	while (m--)
+	{
+		int a, b;
+		cin >> a >> b;
+		ladder[a][b] = true;
+	}
+
+	DFS(0, 1);
+
+	if (ans == 0x7f7f7f7f)
+		cout << -1 << '\n';
+	else
+		cout << ans << '\n';
+
+
+
+	return 0;
+}
