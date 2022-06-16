@@ -1,0 +1,119 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int ans;
+int n, l;
+int board[102][102];
+
+bool check(const vector<int> & v)
+{
+	int idx = 0;
+	int cnt = 1;
+
+	while (idx < n - 1)
+	{
+		if (v[idx] == v[idx + 1])
+		{
+			cnt++;
+			idx++;
+		}
+
+		else if (v[idx] < v[idx + 1])
+		{
+			if (abs(v[idx] - v[idx + 1]) > 1)
+				return false;
+
+			if (cnt < l)
+				return false;
+
+			cnt = 1;
+			idx++;
+		}
+
+		else
+		{
+			if (abs(v[idx] - v[idx + 1]) > 1)
+				return false;
+
+			if (idx + l >= n)
+				return false;
+
+			for (int i = idx+1; i < idx + l; i++)
+			{
+				if (v[i] != v[i + 1])
+					return false;
+			}
+
+			cnt = 0;
+			idx = idx + l;
+		}
+	}
+	return true;
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n >> l;
+
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			cin >> board[i][j];
+
+	// #1. 가로 확인
+	for (int i = 0; i < n; i++)
+	{
+		vector<int> v;
+		for (int j = 0; j < n; j++)
+			v.push_back({ board[i][j] });
+
+		if (check(v))
+			ans++;
+		
+	}
+
+	// #2. 세로 확인
+	for (int i = 0; i < n; i++)
+	{
+		vector<int> v;
+		for (int j = 0; j < n; j++)
+			v.push_back(board[j][i]);
+
+		if (check(v))
+			ans++;
+		
+	}
+
+	cout << ans << '\n';
+
+	return 0;
+}
