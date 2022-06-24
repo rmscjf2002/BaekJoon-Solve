@@ -1,0 +1,76 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+// 1. 국어 내림차순
+// 2. 국어 같으면 영어 오름차순
+// 3. 국어 영어 같으면 수학 내림차순
+// 4. 모두 같으면 사전 순
+
+bool Pred(const tuple<string, int, int, int> &a, const tuple<string, int, int, int> &b)
+{
+	if (get<1>(a) == get<1>(b))
+	{
+		if (get<2>(a) == get<2>(b))
+		{
+			if (get<3>(a) == get<3>(b))
+			{
+				return a < b;
+			}
+			return get<3>(a) > get<3>(b);
+		}
+		return get<2>(a) < get<2>(b);
+	}
+	return get<1>(a) > get<1>(b);
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+	vector<tuple<string, int, int, int>> students;
+
+	for (int i = 0; i < n; i++)
+	{
+		string s;
+		int a, b, c;
+		cin >> s >> a >> b >> c;
+		students.push_back({ s,a,b,c });
+	}
+
+	sort(students.begin(), students.end(), Pred);
+
+	for (int i = 0; i < n; i++)
+		cout << get<0>(students[i]) << '\n';
+
+	return 0;
+}
