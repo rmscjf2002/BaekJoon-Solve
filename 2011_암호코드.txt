@@ -1,0 +1,63 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+string s;
+int arr[5001];
+int dp[5001];
+int MOD = 10000000;
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+
+	cin >> s;
+	int n = s.length();
+
+	for (int i = 1; i <= n; i++)
+		arr[i] = s[i - 1] - '0';
+
+	dp[0] = 1;
+
+	for (int i = 1; i <= n; i++)
+	{
+		if(arr[i] > 0)
+			dp[i] = (dp[i - 1] + dp[i]) % MOD;
+
+		int val = arr[i - 1] * 10 + arr[i];
+		if (val >= 10 && val <= 26)
+			dp[i] = (dp[i - 2] + dp[i]) % MOD;
+	}
+
+	cout << dp[n]%MOD << '\n';
+
+	return 0;
+}
