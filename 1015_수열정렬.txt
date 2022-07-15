@@ -1,0 +1,74 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+bool Pred(const pair<int, int> &a, const pair<int, int> &b)
+{
+	return a.second < b.second;
+}
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+	vector<pair<int, int>> v; // idx,val
+
+
+	for (int i = 0; i < n; i++)
+	{
+		int val;
+		cin >> val;
+		v.push_back({ i,val });
+	}
+
+	map<pair<int, int>, int> m;
+	vector<pair<int, int>> tmp;
+	for (int i = 0; i < n; i++)
+	{
+		int idx = v[i].first;
+		int val = v[i].second;
+		tmp.push_back({ idx,val });
+	}
+
+	stable_sort(tmp.begin(), tmp.end(), Pred);
+
+	for (int i = 0; i < n; i++)
+		m[tmp[i]] = i;
+
+	for (int i = 0; i < n; i++)
+		cout << m[v[i]] << ' ';
+
+
+	cout << '\n';
+
+
+	return 0;
+}
