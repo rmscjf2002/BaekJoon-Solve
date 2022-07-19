@@ -1,0 +1,100 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int ans = 0x7f7f7f7f;
+int n;
+vector<pair<int, int>> pos;
+/*
+void func(int idx)
+{
+	int tmp = 0;
+	pair<int, int> p = { pos[0].first,pos[0].second };
+
+	for (int i = 1; i < n - 1; i++)
+	{
+		if (i == idx)
+			continue;
+
+		tmp += abs(p.first - pos[i].first) + abs(p.second - pos[i].second);
+		p.first = pos[i].first;
+		p.second = pos[i].second;
+	}
+	
+	tmp += abs(p.first - pos[n - 1].first) + abs(p.second - pos[n - 1].second);
+	ans = min(ans, tmp);
+}
+*/ // 시간초과
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n;
+	int tx, ty;
+	cin >> tx >> ty;
+	pos.push_back({ tx,ty });
+	int sum = 0;
+
+	for (int i = 1; i < n; i++)
+	{
+		int x, y;
+		cin >> x >> y;
+		pos.push_back({ x,y });
+		sum += abs(tx - x) + abs(ty - y);
+		tx = x;
+		ty = y;
+	} // 건너뛰지 않았을 떄 총 길이를 구한다.
+
+	ans = sum;
+	int passPoint = 0;
+
+	for (int i = 1; i < n - 1; i++)
+	{
+		pair<int, int> prev = { pos[i - 1].first, pos[i - 1].second };
+		pair<int, int> cur = { pos[i].first, pos[i].second };
+		pair<int, int> next = { pos[i + 1].first, pos[i + 1].second };
+
+		int dist = abs(prev.first - cur.first) + abs(prev.second - cur.second) + abs(cur.first - next.first) + abs(cur.second - next.second);
+		int passdist = abs(prev.first - next.first) + abs(prev.second - next.second);
+
+		passPoint = max(passPoint, dist - passdist);
+	}
+
+	cout << sum - passPoint << '\n';
+
+	/*for (int i = 1; i < n - 1; i++)
+		func(i);
+		*/
+
+
+	return 0;
+}
