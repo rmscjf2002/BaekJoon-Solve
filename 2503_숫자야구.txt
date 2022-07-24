@@ -1,0 +1,111 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+bool pass[1000];
+bool func(const string &s)
+{
+	if (s[0] == '0' || s[1] == '0' || s[2] == '0')
+		return false;
+	if (s[0] == s[1])
+		return false;
+	if (s[0] == s[2])
+		return false;
+	if (s[1] == s[2])
+		return false;
+	return true;
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+
+	int ans = 0;
+
+	for (int i = 123; i < 988; i++) // 숫자3개는 서로 다른 수 , 0이 들어가면 안됨.
+	{
+		string tmps = to_string(i);
+		if (!func(tmps))
+			pass[i] = true;
+	}
+
+	while (n--)
+	{
+		string s;
+		cin >> s;
+
+		int strike, ball;
+		cin >> strike >> ball;
+
+		int tmpstrike;
+		int tmpball;
+		string tmps;
+
+		for (int i = 123; i < 988; i++) // 123~987까지 확인
+		{
+			tmpstrike = 0, tmpball = 0;
+			tmps = to_string(i);
+
+			if (pass[i])
+				continue;
+
+			for (int j = 0; j < 3; j++)
+			{
+				for (int k = 0; k < 3; k++)
+				{
+					if (s[j] == tmps[k])
+					{
+						if (j == k)
+							tmpstrike++;
+						else
+							tmpball++;
+
+						break;
+					}
+				}
+			}
+
+			if (tmpstrike != strike || tmpball != ball)
+				pass[i] = true;
+			
+		}
+	}
+
+	for (int i = 123; i < 988; i++)
+		if (!pass[i])
+			ans++;
+
+	cout << ans << '\n';
+	
+	return 0;
+}
