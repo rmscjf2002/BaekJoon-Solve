@@ -1,0 +1,93 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	stack<char> st;
+	string s;
+	getline(cin, s);
+
+	string tmp = "";
+	string ans = "";
+	for (auto c : s)
+	{
+		if (c == '<')
+		{
+			if (!tmp.empty())
+			{
+				reverse(tmp.begin(), tmp.end());
+				ans += tmp;
+				tmp = "";
+			}
+			st.push(c);
+			tmp += c;
+		}
+		else if (c == '>')
+		{
+			if (st.top() == '<')
+				st.pop();
+			
+			tmp += c;
+			ans += tmp;
+			tmp = "";
+		}
+
+		else if (c == ' ')
+		{
+			if (st.empty())
+			{
+				reverse(tmp.begin(), tmp.end());
+				ans += tmp;
+				ans += ' ';
+				tmp = "";
+			}
+			else
+				tmp += c;
+		}
+
+		else
+			tmp += c;
+		
+	}
+
+	if (!tmp.empty())
+	{	
+		reverse(tmp.begin(), tmp.end());
+		ans += tmp;
+	}
+	cout << ans << '\n';
+
+	return 0;
+}
