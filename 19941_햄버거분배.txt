@@ -1,0 +1,102 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	vector<pair<char, int>> hamburger;
+	vector<pair<char, int>> person;
+	int n, k;
+
+	cin >> n >> k;
+	for (int i = 1; i <= n; i++)
+	{
+		char c;
+		cin >> c;
+		if (c == 'H')
+			hamburger.push_back({ c,i });
+
+		else
+			person.push_back({ c,i });
+	}
+
+
+	int ans = 0;
+
+	int pidx = 0;
+	int hidx = 0;
+
+	if (hamburger.empty() || person.empty())
+	{
+		cout << 0 << '\n';
+		return 0;
+	}
+
+	while (1)
+	{
+		if (abs(person[pidx].second - hamburger[hidx].second) <= k)
+		{
+			ans++;
+			pidx++;
+			hidx++;
+
+			if (pidx >= person.size())
+				break;
+			if (hidx >= hamburger.size())
+				break;
+		}
+
+		else
+		{
+			if (person[pidx].second < hamburger[hidx].second)
+			{
+				pidx++;
+				if (pidx == person.size())
+					break;
+			}
+			else
+			{
+				hidx++;
+				if (hidx == hamburger.size())
+					break;
+			}
+		}
+	}
+
+	cout << ans << '\n';
+	
+	
+
+	return 0;
+}
