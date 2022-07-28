@@ -1,0 +1,84 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+	int n, m;
+	cin >> n >> m;
+	map<string, vector<string>> members; // 그룹이름이 주어질 때 멤버이름
+	map<string, string> teams; // 멤버이름이 주어질 때 팀 매칭
+	
+	
+	while (n--)
+	{
+		string group;
+		cin >> group;
+		int a;
+		cin >> a;
+
+		vector<string> v;
+
+		while (a--)
+		{
+			string s;
+			cin >> s;
+			teams[s] = group;
+			v.push_back(s);
+		}
+		sort(v.begin(), v.end());
+		members[group] = v;
+	}
+
+	for (int i = 0; i < m; i++)
+	{
+		string name;
+		cin >> name;
+
+		int a;
+		cin >> a;
+
+		if (a == 1)
+			cout << teams[name] << '\n';
+		else
+		{
+			for (int j = 0; j < members[name].size(); j++)
+				cout << members[name][j] << '\n';
+		}
+	}
+	
+
+	return 0;
+}
