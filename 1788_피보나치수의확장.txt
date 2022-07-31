@@ -1,0 +1,96 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+long long dp[2000001];
+int n;
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	dp[1 + 1000000] = 1;
+	dp[2 + 1000000] = -1;
+	dp[0] = 0;
+	dp[1] = 1;
+
+	for (int i = 2; i <= 1000000; i++)
+		dp[i] = (dp[i - 1] + dp[i - 2]) % 1000000000;
+	
+
+	for (int i = 1000003; i <= 2000000; i++)
+		dp[i] = (dp[i - 2] - dp[i - 1]) % 1000000000;
+
+	cin >> n;
+
+	if (n < 0)
+	{
+		if (dp[abs(n) + 1000000] > 0)
+		{
+			cout << 1 << '\n';
+			cout << abs(dp[abs(n) + 1000000]) % 1000000000 << '\n';
+		}
+		else if (dp[abs(n) + 1000000] == 0)
+		{
+			cout << 0 << '\n';
+			cout << 0 << '\n';
+		}
+
+		else
+		{
+			cout << -1 << '\n';
+			cout << abs(dp[abs(n) + 1000000]) % 1000000000 << '\n';
+		}
+	}
+
+	else
+	{
+		if (dp[n] > 0)
+		{
+			cout << 1 << '\n';
+			cout << abs(dp[n]) % 1000000000 << '\n';
+		}
+		else if (dp[n] == 0)
+		{
+			cout << 0 << '\n';
+			cout << 0 << '\n';
+		}
+
+		else
+		{
+			cout << -1 << '\n';
+			cout << abs(dp[n]) % 1000000000 << '\n';
+		}
+
+	}
+	
+
+	return 0;
+}
