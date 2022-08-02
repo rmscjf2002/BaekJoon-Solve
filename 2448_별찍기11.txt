@@ -1,0 +1,76 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+const int MAX = 1024 * 3 + 2;
+int n;
+char board[MAX][MAX * 2 - 1];
+
+void draw(int x, int y)
+{
+	board[x][y] = '*';
+
+	board[x + 1][y - 1] = '*';
+	board[x + 1][y + 1] = '*';
+
+	for (int i = 0; i < 5; i++)
+		board[x + 2][y - 2 + i] = '*';
+}
+
+void func(int x, int y, int size)
+{
+	if (size == 3)
+	{
+		draw(x, y);
+		return;
+	}
+
+	func(x, y, size / 2);
+	func(x + size / 2, y - size / 2, size / 2);
+	func(x + size / 2, y + size / 2, size / 2);
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+
+	cin >> n;
+
+	for (int i = 0; i < n; i++)
+		fill(board[i], board[i] + 2 * n - 1, ' ');
+
+	func(0, n - 1, n);
+
+	for (int i = 0; i < n; i++)
+		cout << board[i] << '\n';
+
+	return 0;
+}
