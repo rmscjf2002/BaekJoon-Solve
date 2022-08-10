@@ -1,0 +1,111 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+string s;
+int zone[7];
+bool sealzone[7];
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> s;
+
+	int hour = stoi(s.substr(0, 2)) * 60;
+	int minute = stoi(s.substr(3, 2));
+	int time = hour + minute;
+
+	int curzone = 0;
+
+	for (int i = 1; i <= 6; i++)
+		cin >> zone[i];
+
+	int l;
+	cin >> l;
+
+	while (l--)
+	{
+		if (time > 0 && time < 120)
+			curzone = 1;
+		else if (time > 120 && time < 240)
+			curzone = 2;
+		else if (time > 240 && time < 360)
+			curzone = 3;
+		else if (time > 360 && time < 480)
+			curzone = 4;
+		else if (time > 480 && time < 600)
+			curzone = 5;
+		else if (time > 600 && time < 720)
+			curzone = 6;
+
+		string t, e;
+		cin >> t >> e;
+
+		if (e == "^")
+			sealzone[curzone] = true; // 봉인
+
+		else if (e == "10MIN")
+			time += 10;
+
+		else if (e == "30MIN")
+			time += 30;
+
+		else if (e == "50MIN")
+			time += 50;
+
+		else if (e == "2HOUR")
+			time += 120;
+
+		else if (e == "4HOUR")
+			time += 240;
+
+		else if (e == "9HOUR")
+			time += 540;
+
+		if (time > 720)
+			time %= 720;
+
+	}
+
+	int ans = 0;
+
+	for (int i = 1; i <= 6; i++)
+		if (!sealzone[i])
+			ans += zone[i];
+
+	if (ans >= 100)
+		ans = 100;
+
+	cout << ans << '\n';
+
+
+	return 0;
+}
