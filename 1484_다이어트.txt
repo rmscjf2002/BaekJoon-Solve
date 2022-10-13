@@ -1,0 +1,76 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+
+
+	int g;
+	cin >> g;
+
+	int start = 1;
+	int end = 1;
+	vector<int> ans;
+	int n = 100000;
+	while (start < n && end < n)
+	{
+		long long cur = pow(end, 2);
+		long long remember = pow(start, 2);
+		if (cur - remember < g)
+			end++;
+
+		else if (cur - remember > g)
+			start++;
+
+		else
+		{
+			ans.push_back(end);
+			start++;
+			end++;
+		}
+	}
+
+	if (ans.empty())
+	{
+		cout << -1 << '\n';
+		return 0;
+	}
+
+	for (auto i : ans)
+		cout << i << '\n';
+
+
+	return 0;
+}
