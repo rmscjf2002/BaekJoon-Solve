@@ -1,0 +1,113 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+char board[11][11];
+int type[4][2] = 
+{
+	{0,1},
+	{0,-1},
+	{1,0},
+	{-1,0}
+};
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int r, c;
+	cin >> r >> c;
+
+	for (int i = 0; i < r; i++)
+	{
+		string s;
+		cin >> s;
+		for (int j = 0; j < c; j++)
+			board[i][j] = s[j];
+	}
+
+	for (int i = 0; i < r; i++)
+	{
+		for (int j = 0; j < c; j++)
+		{
+			if (board[i][j] == 'X')
+			{
+				int cnt = 0;
+				
+				for (int k = 0; k < 4; k++)
+				{
+					int nx = i + type[k][0];
+					int ny = j + type[k][1];
+
+					if (board[nx][ny] != 'X' && board[nx][ny] != '@')
+						cnt++;
+				}
+
+				if (cnt >= 3)
+					board[i][j] = '@';
+			}
+		}
+	}
+
+	for (int i = 0; i < r; i++)
+		for (int j = 0; j < c; j++)
+			if (board[i][j] == '@')
+				board[i][j] = '.';
+	
+
+	int minR = 0x7f7f7f7f;
+	int maxR = 0;
+	int minC = 0x7f7f7f7f;
+	int maxC = 0;
+
+	for (int i = 0; i < r; i++)
+	{
+		for (int j = 0; j < c; j++)
+		{
+			if (board[i][j] == 'X')
+			{
+				minR = min(minR, i);
+				maxR = max(maxR, i);
+				minC = min(minC, j);
+				maxC = max(maxC, j);
+			}
+		}
+	}
+
+
+	for (int i = minR; i <= maxR; i++)
+	{
+		for (int j = minC; j <= maxC; j++)
+			cout << board[i][j];
+		cout << '\n';
+	}
+	
+	return 0;
+}
