@@ -1,0 +1,110 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+bool arr[201];
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	int n;
+	cin >> n;
+
+	vector<int> a(n);
+	vector<int> b;
+
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a[i];
+		arr[a[i]] = true;
+	}
+
+	for (int i = 1; i <= 2 * n; i++)
+	{
+		if (!arr[i])
+			b.push_back(i);
+	}
+
+	sort(a.begin(), a.end());
+
+	int cnt = 1;
+	int cur = 0;
+
+	while (!a.empty() && !b.empty())
+	{
+		bool check = false;
+		if (cnt == 1)
+		{
+			for (int i = 0; i < a.size(); i++)
+			{
+				if (cur < a[i])
+				{
+					cur = a[i];
+					check = true;
+					a.erase(a.begin() + i);
+					break;
+				}
+
+				else
+					continue;
+			}
+			if (!check)
+				cur = 0;
+			cnt = 2;
+		}
+
+		else
+		{
+			for (int i = 0; i < b.size(); i++)
+			{
+				if (cur < b[i])
+				{
+					cur = b[i];
+					check = true;
+					b.erase(b.begin() + i);
+					break;
+				}
+				else
+					continue;
+			}
+			if (!check)
+				cur = 0;
+			cnt = 1;
+		}
+	}
+
+	int ans1 = b.size();
+	int ans2 = a.size();
+	cout << ans1 << '\n' << ans2 << '\n';
+
+	
+	return 0;
+}
