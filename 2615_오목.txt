@@ -1,0 +1,99 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int type[4][2] =
+{
+	{1,0},
+	{0,1},
+	{1,1},
+	{-1,1}
+};
+
+
+int board[19][19];
+bool visited[19][19][4][2];
+bool check = false;
+
+void DFS(int x, int y, int color, int dir, int cnt)
+{
+	if (check)
+		return;
+	visited[x][y][dir][color] = true;
+	int nx = x + type[dir][0];
+	int ny = y + type[dir][1];
+
+	if (nx < 0 || nx >= 19 || ny < 0 || ny >= 19 || board[nx][ny] != color)
+	{
+		if (cnt == 5)
+			check = true;
+
+		return;
+	}
+
+	DFS(nx, ny, color, dir, cnt + 1);
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	
+	for (int i = 0; i < 19; i++)
+		for (int j = 0; j < 19; j++)
+			cin >> board[i][j];
+
+	for (int i = 0; i < 19; i++)
+	{
+		for (int j = 0; j < 19; j++)
+		{
+			if (board[j][i] != 0)
+			{
+				for (int k = 0; k < 4; k++)
+				{
+					if (visited[j][i][k][board[j][i]])
+						continue;
+
+					DFS(j, i, board[j][i], k, 1);
+					if (check)
+					{
+						cout << board[j][i] << '\n';
+						cout << j + 1 << ' ' << i + 1 << '\n';
+						return 0;
+					}
+				}
+			}
+		}
+	}
+
+	cout << 0 << '\n';
+	
+	return 0;
+}
