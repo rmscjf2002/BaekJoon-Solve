@@ -1,0 +1,86 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int type[4][2] = 
+{
+	{1,0},
+	{-1,0},
+	{0,1},
+	{0,-1}
+};
+
+char board[6][6];
+set<string> s;
+
+
+void DFS(int cnt, string ans, int x, int y)
+{
+
+	if (cnt == 6)
+	{
+		s.insert(ans);
+		return;
+	}
+
+
+	for (int i = 0; i < 4; i++)
+	{
+		int nx = x + type[i][0];
+		int ny = y + type[i][1];
+
+		if (nx < 0 || nx >= 5 || ny < 0 || ny >= 5)
+			continue;
+
+
+		DFS(cnt + 1, ans + board[nx][ny], nx, ny);
+
+	}
+
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	for (int i = 0; i < 5; i++)
+		for (int j = 0; j < 5; j++)
+			cin >> board[i][j];
+
+	for (int i = 0; i < 5; i++)
+		for (int j = 0; j < 5; j++)
+			DFS(0, "", i, j);
+	cout << s.size() << '\n';
+	
+	
+
+	return 0;
+}
