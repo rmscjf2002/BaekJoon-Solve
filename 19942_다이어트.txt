@@ -1,0 +1,99 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+vector<int> ans;
+int val = 0x7f7f7f7f;
+bool check[16];
+vector<tuple<int, int, int, int, int>> ingredient;
+int mP, mF, mS, mV;
+int n;
+
+void DFS(int p, int f, int s, int v, int sum, int idx)
+{
+
+	if (p >= mP && f >= mF && s >= mS && v >= mV)
+	{
+		if (sum < val)
+		{
+			val = sum;
+			ans.clear();
+			for (int i = 0; i < n; i++)
+				if (check[i])
+					ans.push_back(i + 1);
+		}
+		return;
+	}
+
+	for (int i = idx; i < n; i++)
+	{
+		if (check[i])
+			continue;
+
+		check[i] = true;
+		DFS(p + get<0>(ingredient[i]), f + get<1>(ingredient[i]), s + get<2>(ingredient[i]), v + get<3>(ingredient[i]), sum + get<4>(ingredient[i]), i+1);
+		check[i] = false;
+
+	}
+	return;
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	
+
+	cin >> n;
+
+	cin >> mP >> mF >> mS >> mV;
+
+	for (int i = 0; i < n; i++)
+	{
+		int p, f, s, v, price;
+		cin >> p >> f >> s >> v >> price;
+		ingredient.push_back({ p,f,s,v,price });
+	}
+
+	DFS(0, 0, 0, 0, 0, 0);
+
+	if (ans.empty())
+		cout << -1 << '\n';
+	else
+	{
+		cout << val << '\n';
+		for (int i = 0; i < ans.size(); i++)
+			cout << ans[i] << ' ';
+		cout << '\n';
+	}
+
+	return 0;
+}
