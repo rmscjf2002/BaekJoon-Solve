@@ -1,0 +1,81 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+string a, b;
+int ans = -1;
+string res = "";
+vector<int> check;
+
+void DFS(int sum, int &len, int cnt)
+{
+	if (sum > stoi(b))
+		return;
+
+	if (cnt == len)
+	{
+
+		ans = max(ans, sum);
+		return;
+	}
+
+	for (int i = 0; i < len; i++)
+	{
+		if (check[i])
+			continue;
+
+		int val = sum * 10 + (a[i] - '0');
+		if (val == 0)
+			continue;
+
+		check[i] = true;
+		DFS(val, len, cnt + 1);
+		check[i] = false;
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> a >> b;
+	int len = a.size();
+	check.resize(len);
+
+	DFS(0, len, 0);
+
+
+	cout << ans << '\n';
+
+	return 0;
+}
