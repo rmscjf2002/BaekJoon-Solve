@@ -1,0 +1,106 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+double h, w;
+
+
+
+double crossCal(double h, double w)
+{
+	h *= h;
+	w *= w;
+	return sqrt(h + w);
+}
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+
+	while (1)
+	{
+		cin >> h >> w;
+		if (h == 0 && w == 0)
+			break;
+		double ans = 0x7f7f7f7f;
+		pair<double, double> hw;
+		double crossVal = crossCal(h, w);
+
+
+		for (double i = 1; i < 150; i++) // h
+		{
+			for (double j = i+1; j < 150; j++) // w
+			{
+
+				if (crossCal(i, j) < crossVal)
+					continue;
+
+				if (crossCal(i, j) == crossVal && h >= i)
+					continue;
+				if (crossCal(i, j) > ans)
+					continue;
+
+				if (crossCal(i, j) < ans)
+				{
+					ans = crossCal(i, j);
+					hw.first = i;
+					hw.second = j;
+				}
+
+				else if (crossCal(i, j) == ans)
+				{
+					if (hw.first > i)
+					{
+						ans = crossCal(i, j);
+						hw.first = i;
+						hw.second = j;
+					}
+				}
+
+				
+			}
+
+		}
+		cout << hw.first << ' ' << hw.second << '\n';
+	}
+
+
+
+	
+
+
+
+	return 0;
+}
