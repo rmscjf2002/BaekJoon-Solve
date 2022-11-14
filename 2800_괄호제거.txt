@@ -1,0 +1,104 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+string s;
+vector<pair<int, int>> v; // 괄호 위치 저장.
+
+bool visited1[11]; // 괄호 방문했는지
+bool visited2[201]; // 문자열의 괄호부분 체크
+
+set<string> ans;
+
+void DFS(int idx, int cnt)
+{
+	if (cnt >= 1)
+	{
+		string tmp = "";
+		
+		for (int i = 0; i < s.length(); i++)
+		{
+			if (visited2[i])
+				continue;
+
+			tmp += s[i];
+		}
+
+		ans.insert(tmp);
+	}
+
+	for (int i = idx; i < v.size(); i++)
+	{
+		if (visited1[i])
+			continue;
+
+		visited1[i] = true;
+		visited2[v[i].first] = true;
+		visited2[v[i].second] = true;
+		DFS(i, cnt + 1);
+		visited1[i] = false;
+		visited2[v[i].first] = false;
+		visited2[v[i].second] = false;
+
+	}
+
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> s;
+
+	deque<int> dq;
+
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (s[i] == '(')
+			dq.push_back(i);
+
+		else if (s[i] == ')')
+		{
+			int tmp = dq.back();
+			dq.pop_back();
+			v.push_back({ tmp,i });
+		}
+	}
+
+	DFS(0, 0);
+
+	for (auto i : ans)
+		cout << i << '\n';
+
+
+
+	return 0;
+}
