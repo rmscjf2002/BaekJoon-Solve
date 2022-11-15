@@ -1,0 +1,87 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	deque<int> dq;
+	vector<int> ans;
+	vector<pair<int,int>> answer;
+	int n;
+	cin >> n;
+
+	for (int i = 1; i <= n; i++)
+		dq.push_back(i);
+
+	while (n--)
+	{
+		int x;
+		cin >> x;
+
+		if (x == 1)
+		{
+			ans.push_back(dq.front());
+			dq.pop_front();
+		}
+
+		else if (x == 2)
+		{
+			int tmp = dq.front();
+			dq.pop_front();
+			ans.push_back(dq.front());
+			dq.pop_front();
+			dq.push_front(tmp);
+		}
+
+		else if (x == 3)
+		{
+			ans.push_back(dq.back());
+			dq.pop_back();
+		}
+	}
+
+	reverse(ans.begin(), ans.end());
+	
+	for (int i = 0; i < ans.size(); i++)
+		answer.push_back({ ans[i],i + 1 });
+
+	sort(answer.begin(), answer.end());
+
+	for (auto i : answer)
+		cout << i.second << ' ';
+	cout << '\n';
+
+	
+	
+	return 0;
+}
