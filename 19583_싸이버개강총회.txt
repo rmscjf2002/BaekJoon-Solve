@@ -1,0 +1,79 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	string s, e, q;
+	cin >> s >> e >> q;
+	int sTime = stoi(s.substr(0, 2)) * 3600;
+	sTime += stoi(s.substr(3, 2)) * 60;
+	
+	int eTime = stoi(e.substr(0, 2)) * 3600;
+	eTime += stoi(e.substr(3, 2)) * 60;
+
+	int qTime = stoi(q.substr(0, 2)) * 3600;
+	qTime += stoi(q.substr(3, 2)) * 60;
+
+	int ans = 0;
+	map<string, int> m;
+
+	while (1)
+	{
+		string t, name;
+		cin >> t >> name;
+		if (cin.eof())
+			break;
+
+		int curT = stoi(t.substr(0, 2)) * 3600;
+		curT += stoi(t.substr(3, 2)) * 60;
+
+		if (0 <= curT && curT <= sTime)
+			m[name] = 1;
+		
+		if (eTime <= curT && curT <= qTime)
+		{
+			if (m[name] == 1)
+			{
+				m[name] = 0;
+				ans++;
+			}
+		}
+	}
+
+
+	cout << ans << '\n';
+
+	return 0;
+}
