@@ -1,0 +1,94 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	int n;
+	cin >> n;
+
+	vector<pair<int, int>> v;
+
+	for (int i = 0; i < n; i++)
+	{
+		int s, e;
+		cin >> s >> e;
+		v.push_back({ s,e });
+	}
+
+	sort(v.begin(), v.end());
+
+	// end time, idx
+	priority_queue<pair<int, int>, vector<pair<int,int>> , greater<>> pq;
+	
+	priority_queue<int,vector<int>,greater<>> seatpq; // 빈자리 우선순위 큐
+
+	vector<int> ans(100001);
+	int cnt = 0;
+
+	for (int i = 0; i < n; i++)
+	{
+		while (!pq.empty())
+		{
+			if (pq.top().first <= v[i].first)
+			{
+				seatpq.push(pq.top().second);
+				pq.pop();
+			}
+			else
+				break;
+		}
+
+		if (seatpq.empty())
+		{
+			pq.push({ v[i].second, cnt });
+			ans[cnt++] = 1;
+		}
+
+		else
+		{
+			ans[seatpq.top()]++;
+			pq.push({ v[i].second, seatpq.top() });
+			seatpq.pop();
+		}
+	}
+
+	cout << cnt << '\n';
+
+	for (int i = 0; i < cnt; i++)
+		cout << ans[i] << ' ';
+	cout << '\n';
+	
+	return 0;
+}
