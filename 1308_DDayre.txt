@@ -1,0 +1,137 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+int dayarr[13] =
+{
+	0,31,28,31,30,31,30,31,31,30,31,30,31
+}; 
+
+
+// 평년 윤년 개념 헷갈림 + 천년 반례 찾느라 풀기 어려웠다.
+
+
+bool isLeap(int year) // 윤년 평년 개념을 헷갈렸다.
+{
+	if (year % 4 != 0)
+		return false;
+	if (year % 100 != 0)
+		return true;
+	if (year % 400 == 0)
+		return true;
+	return false;
+}
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+
+	int year1, month1, day1;
+	int year2, month2, day2;
+
+	cin >> year1 >> month1 >> day1;
+	cin >> year2 >> month2 >> day2;
+
+	int tmp1 = day1, tmp2 = day2;
+
+	for (int i = 1; i < month1; i++)
+	{
+		if (i == 1)
+			tmp1++;
+		tmp1 += dayarr[i];
+	}
+	for (int i = 1; i < month2; i++)
+	{
+		if (i == 2)
+			tmp2++;
+		tmp2 += dayarr[i];
+	}
+
+	if ((year2 - year1 > 1000) || (year2 - year1 == 1000 && tmp2 >= tmp1))
+	{
+		cout << "gg\n";
+		return 0;
+	}
+
+
+
+
+	bool todayCheck = isLeap(year1); // true면 윤년
+	bool ddayCheck = isLeap(year2);
+
+	
+	int today = day1;
+
+	for (int i = 1; i < month1; i++)
+	{
+		today += dayarr[i];
+		if (todayCheck && i == 2)
+			today++;
+	}
+
+
+	int dday = day2;
+
+	for (int i = 1; i < month2; i++)
+	{
+		dday += dayarr[i];
+		if (ddayCheck && i == 2)
+			dday++;
+	}
+
+
+	for (int i = 1; i < year1; i++)
+	{
+		if (isLeap(i))
+			today += 366;
+		else
+			today += 365;
+	}
+
+	for (int i = 1; i < year2; i++)
+	{
+		if (isLeap(i))
+			dday += 366;
+		else
+			dday += 365;
+	}
+
+
+	cout << "D-" << dday - today  << '\n';
+
+
+
+
+	
+	return 0;
+}
