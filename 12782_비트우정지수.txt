@@ -1,0 +1,80 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	
+	
+	int t;
+	cin >> t;
+
+	while (t--)
+	{
+		string s1, s2;
+		cin >> s1 >> s2;
+
+		int cnt1 = 0, cnt2 = 0;
+
+		for (auto c : s1)
+			if (c == '1')
+				cnt1++;
+
+		for (auto c : s2)
+			if (c == '1')
+				cnt2++;
+
+
+		int diffcnt = max(cnt1, cnt2) - min(cnt1, cnt2);
+
+		int answer = diffcnt;
+
+		int diff = 0; // 체인지해야할 개수
+		for (int i = 0; i < s1.length(); i++)
+		{
+			if (s1[i] != s2[i])
+				diff++;
+		}
+
+
+		diff = max(diffcnt, diff) - min(diffcnt, diff);
+		answer += diff / 2;
+
+		cout << answer << '\n';
+	}
+
+
+	
+	return 0;
+}
