@@ -1,0 +1,102 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+
+#include <iostream>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cassert>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <numeric>
+#include <ctime>
+#include <deque>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
+#include <sstream>
+#include <iomanip> // 출력포매팅 라이브러리
+
+
+using namespace std;
+
+int arr[500001];
+int tmp[500001];
+int cnt;
+int n, k;
+int answer = -1;
+void merge(int arr[], int s, int mid, int e)
+{
+
+	int i = s;
+	int j = mid + 1;
+	int t = 1;
+
+	while (i <= mid && j <= e)
+	{
+		if (arr[i] <= arr[j])
+			tmp[t++] = arr[i++];
+		else
+			tmp[t++] = arr[j++];
+
+	}
+
+	while (i <= mid)
+		tmp[t++] = arr[i++];
+
+	while (j <= e)
+		tmp[t++] = arr[j++];
+
+	i = s;
+	t = 1;
+	while (i <= e)
+	{
+		arr[i++] = tmp[t++];
+		cnt++;
+		if (cnt == k)
+		{
+			answer = arr[i - 1];
+			return;
+		}
+	}
+}
+
+
+void merge_sort(int arr[], int s, int e)
+{
+	if (s < e)
+	{
+		int mid = (s + e) / 2;
+		merge_sort(arr, s, mid); // 전반부 정렬
+		merge_sort(arr, mid + 1, e); // 후반부 정렬
+		merge(arr, s, mid, e);
+	}
+}
+
+
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> n >> k;
+	for (int i = 0; i < n; i++)
+		cin >> arr[i];
+
+	merge_sort(arr, 0, n-1);
+	
+
+	
+	cout << answer << '\n';
+
+	return 0;
+}
